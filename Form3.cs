@@ -22,13 +22,20 @@ namespace WinFormsApp1
             //int selectedIndex = cmbSubject1.SelectedIndex;
             //cmbSubject2.SelectedIndex = selectedIndex;
             //MessageBox.Show(cmbSubject1.SelectedItem.ToString());
+            if (cmbSubject1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select Subject.");
+                cmbSubject1.Focus();
+                return;
+            }
+            else
+            {
+                String item = cmbSubject1.SelectedItem.ToString();
 
+                cmbSubject2.SelectedItem = item;
 
-            String item = cmbSubject1.SelectedItem.ToString();
-
-            cmbSubject2.SelectedItem = item;
-
-            MessageBox.Show($"Selected Subject: {item}");
+                MessageBox.Show($"Selected Subject: {item}");
+            }
 
             //try 
             //{
@@ -39,7 +46,7 @@ namespace WinFormsApp1
             //{
             //    MessageBox.Show("Error");
             //}
-
+            
         }
     }
 }
