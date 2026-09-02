@@ -184,7 +184,7 @@ namespace WinFormsApp1
             {
                 conn.Open();
 
-                //--------------------------Load grades into ComboBox-------------------------------
+                //Load grades into ComboBox
                 string gradeQuery = "SELECT id, grade_name FROM grades";
                 MySqlDataAdapter gradeAdapter = new MySqlDataAdapter(gradeQuery, conn);
                 DataTable gradeTable = new DataTable();
@@ -194,7 +194,7 @@ namespace WinFormsApp1
                 cmbGrade.DisplayMember = "grade_name";
                 cmbGrade.ValueMember = "id";
 
-                //-------------------------------Load Houses into ComboBox----------------------------
+                //Load Houses into ComboBox
                 string houseQuery = "SELECT id, house_name FROM houses";
 
                 MySqlDataAdapter houseAdapter = new MySqlDataAdapter(houseQuery, conn);
@@ -205,7 +205,7 @@ namespace WinFormsApp1
                 cmbHouse.DisplayMember = "house_name";
                 cmbHouse.ValueMember = "id";
 
-                //-------------------------------Load Families into ComboBox----------------------------
+                //Load Families into ComboBox
 
                 string familyQuery = "SELECT id FROM families";
 
@@ -219,7 +219,7 @@ namespace WinFormsApp1
                 cmbFamily.ValueMember = "id";
 
 
-                //-------------------------------Load Student Data into Form Controls--------------------------------
+                //Load Student Data into Form Controls
                 MySqlCommand cmd = new MySqlCommand($"select * from students where id={this.studentId}", conn);
 
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -229,7 +229,7 @@ namespace WinFormsApp1
 
                 DataRow dr = dt.Rows[0];
 
-                //-------------------------------Load Student Data into TextBoxes--------------------------------
+                //Load Student Data into TextBoxes
                 txtFirstName.Text = dr["first_name"].ToString();
                 txtLastName.Text = dr["last_name"].ToString();
                 txtAddress.Text = dr["per_address"].ToString();
@@ -238,13 +238,13 @@ namespace WinFormsApp1
                 txtTel.Text = dr["tele_number"].ToString();
                 txtBirthNo.Text = dr["birth_certificate_number"].ToString();
 
-                //-------------------------------Load Gender---------------------------------
+                //Load Gender
                 string gender = dr["gender"].ToString();
 
                 rdoMale.Checked = gender == "M";
                 rdoFemale.Checked = gender == "F";
 
-                //-------------------------------Load Grade into ComboBoxes--------------------------------
+                //Load Grade into ComboBoxes
                 if (dr["grade_id"] != DBNull.Value)
                 {
                     cmbGrade.SelectedValue = dr["grade_id"];
@@ -255,7 +255,7 @@ namespace WinFormsApp1
                     cmbGrade.Text = "N/A";
                 }
 
-                //-------------------------------Load Date of Birth into DateTimePicker--------------------------------
+                //Load Date of Birth into DateTimePicker
                 if (dr["date_of_birth"] != DBNull.Value)
 
                 {
@@ -269,7 +269,7 @@ namespace WinFormsApp1
                 }
 
 
-                //--------------------------------Load House into ComboBoxes--------------------------------
+                //Load House into ComboBoxes
                 if (dr["house_id"] != DBNull.Value)
                 {
                     int houseId = Convert.ToInt32(dr["house_id"]);
@@ -282,7 +282,7 @@ namespace WinFormsApp1
                     cmbHouse.Text = "N/A";
                 }
 
-                //-------------------------------Load Medium into ComboBoxes--------------------------------        
+                //Load Medium into ComboBoxes
                 if (dr["medium"] != DBNull.Value)
                 {
                     cmbMedium.Text =
@@ -293,7 +293,7 @@ namespace WinFormsApp1
                     cmbMedium.Text = "N/A";
                 }
 
-                //---------------------Family ID-------------------------------------
+                //Family ID
 
                 if (dr["family_id"] != DBNull.Value)
                 {
