@@ -14,6 +14,8 @@ namespace WinFormsApp1
 {
     public partial class databaseconnect : Form
     {
+        private object studentId;
+
         public databaseconnect()
         {
             InitializeComponent();
@@ -299,6 +301,56 @@ namespace WinFormsApp1
         private void databaseconnect_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
+
+            EditStudent f = new EditStudent(id);
+
+            f.ShowDialog();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Do you want to delete this student?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connectionString);
+
+            try
+            {
+                string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
+
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand($"DELETE FROM students WHERE id={id}", conn);
+
+                string affectedRows = cmd.ExecuteNonQuery().ToString();
+
+                MessageBox.Show("Delete Successfully.Row affected" + affectedRows,
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("An ereor occurred while connection to the database" + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

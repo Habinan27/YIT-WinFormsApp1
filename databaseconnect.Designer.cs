@@ -47,6 +47,8 @@
             rdoFemale = new RadioButton();
             label1 = new Label();
             btnDBShow = new Button();
+            btnEdit = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dcvAllStudent).BeginInit();
             SuspendLayout();
             // 
@@ -228,12 +230,34 @@
             btnDBShow.UseVisualStyleBackColor = true;
             btnDBShow.Click += btnDBShow_Click;
             // 
+            // btnEdit
+            // 
+            btnEdit.Location = new Point(854, 86);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(94, 39);
+            btnEdit.TabIndex = 19;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(999, 86);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(94, 39);
+            btnDelete.TabIndex = 20;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
             // databaseconnect
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(1150, 609);
+            Controls.Add(btnDelete);
+            Controls.Add(btnEdit);
             Controls.Add(btnDBShow);
             Controls.Add(label1);
             Controls.Add(rdoFemale);
@@ -282,5 +306,7 @@
         private RadioButton rdoFemale;
         private Label label1;
         private Button btnDBShow;
+        private Button btnEdit;
+        private Button btnDelete;
     }
 }
