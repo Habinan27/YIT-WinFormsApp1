@@ -49,6 +49,7 @@
             btnDBShow = new Button();
             btnEdit = new Button();
             btnDelete = new Button();
+            btnInsert = new Button();
             ((System.ComponentModel.ISupportInitialize)dcvAllStudent).BeginInit();
             SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             // 
             // btnAllStudent
             // 
-            btnAllStudent.Location = new Point(178, 86);
+            btnAllStudent.Location = new Point(132, 86);
             btnAllStudent.Name = "btnAllStudent";
             btnAllStudent.Size = new Size(105, 39);
             btnAllStudent.TabIndex = 1;
@@ -84,7 +85,7 @@
             // 
             // btnShow
             // 
-            btnShow.Location = new Point(340, 86);
+            btnShow.Location = new Point(254, 86);
             btnShow.Name = "btnShow";
             btnShow.Size = new Size(105, 39);
             btnShow.TabIndex = 3;
@@ -160,7 +161,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(507, 86);
+            button1.Location = new Point(376, 86);
             button1.Name = "button1";
             button1.Size = new Size(119, 39);
             button1.TabIndex = 12;
@@ -222,7 +223,7 @@
             // 
             // btnDBShow
             // 
-            btnDBShow.Location = new Point(681, 86);
+            btnDBShow.Location = new Point(515, 86);
             btnDBShow.Name = "btnDBShow";
             btnDBShow.Size = new Size(107, 39);
             btnDBShow.TabIndex = 18;
@@ -232,7 +233,7 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(854, 86);
+            btnEdit.Location = new Point(642, 86);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(94, 39);
             btnEdit.TabIndex = 19;
@@ -242,7 +243,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(999, 86);
+            btnDelete.Location = new Point(758, 86);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(94, 39);
             btnDelete.TabIndex = 20;
@@ -250,12 +251,23 @@
             btnDelete.UseVisualStyleBackColor = true;
             btnDelete.Click += btnDelete_Click;
             // 
+            // btnInsert
+            // 
+            btnInsert.Location = new Point(885, 86);
+            btnInsert.Name = "btnInsert";
+            btnInsert.Size = new Size(94, 39);
+            btnInsert.TabIndex = 21;
+            btnInsert.Text = "Insert";
+            btnInsert.UseVisualStyleBackColor = true;
+            btnInsert.Click += btnInsert_Click;
+            // 
             // databaseconnect
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(1150, 609);
+            Controls.Add(btnInsert);
             Controls.Add(btnDelete);
             Controls.Add(btnEdit);
             Controls.Add(btnDBShow);
@@ -308,5 +320,6 @@
         private Button btnDBShow;
         private Button btnEdit;
         private Button btnDelete;
+        private Button btnInsert;
     }
 }

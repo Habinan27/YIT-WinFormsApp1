@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp1
 {
-    partial class frmshowstudent
+    partial class frmStudent
     {
         /// <summary>
         /// Required designer variable.
@@ -50,15 +50,16 @@
             lblAddress = new Label();
             lblLastName = new Label();
             lblFirstname = new Label();
-            cmbFamily = new ComboBox();
             dtpAdmission = new DateTimePicker();
             cmbMedium = new ComboBox();
             lblAdmission = new Label();
             lblMedium = new Label();
             lblFamily = new Label();
-            cmbHouse = new ComboBox();
             panel1 = new Panel();
             lable01 = new Label();
+            btnCreate = new Button();
+            txtHouse = new TextBox();
+            txtFamily = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -247,14 +248,6 @@
             lblFirstname.TabIndex = 29;
             lblFirstname.Text = "First Name";
             // 
-            // cmbFamily
-            // 
-            cmbFamily.FormattingEnabled = true;
-            cmbFamily.Location = new Point(382, 533);
-            cmbFamily.Name = "cmbFamily";
-            cmbFamily.Size = new Size(260, 28);
-            cmbFamily.TabIndex = 56;
-            // 
             // dtpAdmission
             // 
             dtpAdmission.Location = new Point(382, 455);
@@ -265,6 +258,7 @@
             // cmbMedium
             // 
             cmbMedium.FormattingEnabled = true;
+            cmbMedium.Items.AddRange(new object[] { "Tamil", "English" });
             cmbMedium.Location = new Point(382, 381);
             cmbMedium.Name = "cmbMedium";
             cmbMedium.Size = new Size(260, 28);
@@ -297,14 +291,6 @@
             lblFamily.TabIndex = 51;
             lblFamily.Text = "Family";
             // 
-            // cmbHouse
-            // 
-            cmbHouse.FormattingEnabled = true;
-            cmbHouse.Location = new Point(382, 311);
-            cmbHouse.Name = "cmbHouse";
-            cmbHouse.Size = new Size(260, 28);
-            cmbHouse.TabIndex = 57;
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.MenuHighlight;
@@ -320,22 +306,47 @@
             lable01.BackColor = SystemColors.MenuHighlight;
             lable01.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lable01.ForeColor = SystemColors.ButtonHighlight;
-            lable01.Location = new Point(162, 9);
+            lable01.Location = new Point(212, 9);
             lable01.Name = "lable01";
-            lable01.Size = new Size(358, 38);
+            lable01.Size = new Size(281, 38);
             lable01.TabIndex = 0;
-            lable01.Text = "Show Student information ";
+            lable01.Text = "Student information ";
             // 
-            // frmshowstudent
+            // btnCreate
+            // 
+            btnCreate.Location = new Point(519, 586);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(123, 41);
+            btnCreate.TabIndex = 59;
+            btnCreate.Text = "Create";
+            btnCreate.UseVisualStyleBackColor = true;
+            btnCreate.Click += btnCreate_Click;
+            // 
+            // txtHouse
+            // 
+            txtHouse.Location = new Point(383, 318);
+            txtHouse.Name = "txtHouse";
+            txtHouse.Size = new Size(259, 27);
+            txtHouse.TabIndex = 60;
+            // 
+            // txtFamily
+            // 
+            txtFamily.Location = new Point(383, 531);
+            txtFamily.Name = "txtFamily";
+            txtFamily.Size = new Size(259, 27);
+            txtFamily.TabIndex = 61;
+            // 
+            // frmStudent
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
-            ClientSize = new Size(683, 570);
+            ClientSize = new Size(683, 639);
+            Controls.Add(txtFamily);
+            Controls.Add(txtHouse);
+            Controls.Add(btnCreate);
             Controls.Add(panel1);
             Controls.Add(txtNIC);
-            Controls.Add(cmbHouse);
-            Controls.Add(cmbFamily);
             Controls.Add(dtpAdmission);
             Controls.Add(cmbMedium);
             Controls.Add(lblAdmission);
@@ -362,7 +373,7 @@
             Controls.Add(lblAddress);
             Controls.Add(lblLastName);
             Controls.Add(lblFirstname);
-            Name = "frmshowstudent";
+            Name = "frmStudent";
             Text = "frmshowstudent";
             Load += Frmdbshow_Load;
             panel1.ResumeLayout(false);
@@ -395,14 +406,15 @@
         private Label lblAddress;
         private Label lblLastName;
         private Label lblFirstname;
-        private ComboBox cmbFamily;
         private DateTimePicker dtpAdmission;
         private ComboBox cmbMedium;
         private Label lblAdmission;
         private Label lblMedium;
         private Label lblFamily;
-        private ComboBox cmbHouse;
         private Panel panel1;
         private Label lable01;
+        private Button btnCreate;
+        private TextBox txtHouse;
+        private TextBox txtFamily;
     }
 }
