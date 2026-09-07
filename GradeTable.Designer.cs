@@ -126,8 +126,6 @@
             ResumeLayout(false);
         }
 
-        #endregion
-
         private DataGridView dgvAllGrades;
         private Button btnConnection;
         private Button btnInsert;
