@@ -186,48 +186,32 @@ namespace WinFormsApp1
             {
                 conn.Open();
 
-                //Load grades into ComboBox
-                string gradeQuery = "SELECT id, grade_name FROM grades";
-                MySqlDataAdapter gradeAdapter = new MySqlDataAdapter(gradeQuery, conn);
-                DataTable gradeTable = new DataTable();
-                gradeAdapter.Fill(gradeTable);
-
-                cmbGrade.DataSource = gradeTable;
-                cmbGrade.DisplayMember = "grade_name";
-                cmbGrade.ValueMember = "id";
-
-                //Load Houses into ComboBox
-                string houseQuery = "SELECT id, house_name FROM houses";
-
-                MySqlDataAdapter houseAdapter = new MySqlDataAdapter(houseQuery, conn);
-                DataTable houseTable = new DataTable();
-                houseAdapter.Fill(houseTable);
-
-                cmbHouse.DataSource = houseTable;
-                cmbHouse.DisplayMember = "house_name";
-                cmbHouse.ValueMember = "id";
-
-                //Load Families into ComboBox
-
-                string familyQuery = "SELECT id FROM families";
-
-                MySqlDataAdapter familyAdapter = new MySqlDataAdapter(familyQuery, conn);
-                
-                DataTable familyTable = new DataTable();
-                familyAdapter.Fill(familyTable);
-
-                cmbFamily.DataSource = familyTable;
-                cmbFamily.DisplayMember = "id";
-                cmbFamily.ValueMember = "id";
-
 
                 //Load Student Data into Form Controls
-                MySqlCommand cmd = new MySqlCommand($"select * from students where id={this.studentId}", conn);
+                //Load Student Data into Form Controls
+                MySqlCommand cmd = new MySqlCommand($@"
+                    SELECT 
+                        students.*,
+                        grades.grade_name,
+                        houses.house_name,
+                        families.mobile_number AS family_mobile
+                                         FROM students
+                        LEFT JOIN grades ON students.grade_id = grades.id
+                        LEFT JOIN houses ON students.house_id = houses.id
+                        LEFT JOIN families ON students.family_id = families.id
+                        WHERE students.id={this.studentId}", conn);
 
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
 
                 da.Fill(dt);
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Student not found", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
                 DataRow dr = dt.Rows[0];
 
@@ -246,15 +230,14 @@ namespace WinFormsApp1
                 rdoMale.Checked = gender == "M";
                 rdoFemale.Checked = gender == "F";
 
-                //Load Grade into ComboBoxes
-                if (dr["grade_id"] != DBNull.Value)
+                //Load Grade into TextBox
+                if (dr["grade_name"] != DBNull.Value)
                 {
-                    cmbGrade.SelectedValue = dr["grade_id"];
+                    txtGrade.Text = dr["grade_name"].ToString();
                 }
                 else
                 {
-                    cmbGrade.SelectedIndex = -1;
-                    cmbGrade.Text = "N/A";
+                    txtGrade.Text = "N/A";
                 }
 
                 //Load Date of Birth into DateTimePicker
@@ -287,40 +270,33 @@ namespace WinFormsApp1
                 //Load House into ComboBoxes
                 if (dr["house_id"] != DBNull.Value)
                 {
-                    int houseId = Convert.ToInt32(dr["house_id"]);
-
-                    cmbHouse.SelectedValue = houseId;
+                    txtHouse.Text = dr["house_name"].ToString();
                 }
                 else
                 {
-                    cmbHouse.SelectedIndex = -1;
-                    cmbHouse.Text = "N/A";
+                    txtHouse.Text = "N/A";
                 }
 
                 //Load Medium into ComboBoxes
                 if (dr["medium"] != DBNull.Value)
                 {
-                    cmbMedium.Text =
-                        dr["medium"].ToString();
+                    txtMedium.Text =dr["medium"].ToString();
                 }
                 else
                 {
-                    cmbMedium.Text = "N/A";
+                    txtMedium.Text = "N/A";
                 }
 
                 //Family ID
 
-                if (dr["family_id"] != DBNull.Value)
+                if (dr["family_mobile"] != DBNull.Value)
                 {
-                    cmbFamily.SelectedValue = dr["family_id"].ToString();
+                    txtFamily.Text = dr["family_mobile"].ToString();
                 }
                 else
                 {
-                    cmbFamily.SelectedIndex = -1;
-                    cmbFamily.Text = "N/A";
+                    txtFamily.Text = "N/A";
                 }
-
-
             }
             catch (Exception ex)
             {

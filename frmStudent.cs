@@ -172,10 +172,10 @@ namespace WinFormsApp1
                 string houseId = houseCmd.LastInsertedId.ToString();
 
                 // Create new Family
-                string father_fname = txtFamily.Text;
+                string mobile_number = txtFamily.Text;
 
                 MySqlCommand familyCmd = new MySqlCommand(
-                    $"INSERT INTO families (fa_first_name) VALUES ('{father_fname}')",
+                    $"INSERT INTO families (mobile_number) VALUES ('{mobile_number}')",
                     conn);
 
                 familyCmd.ExecuteNonQuery();

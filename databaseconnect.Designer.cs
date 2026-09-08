@@ -31,21 +31,7 @@
             btnConnect = new Button();
             btnAllStudent = new Button();
             dcvAllStudent = new DataGridView();
-            btnShow = new Button();
-            lblFname = new Label();
-            txtFname = new TextBox();
-            lblLname = new Label();
-            txtLname = new TextBox();
-            lblAddress = new Label();
-            txtAddress = new TextBox();
-            cmbGrade = new ComboBox();
-            lblGrade = new Label();
             button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            rdoMale = new RadioButton();
-            rdoFemale = new RadioButton();
-            label1 = new Label();
             btnDBShow = new Button();
             btnEdit = new Button();
             btnDelete = new Button();
@@ -82,151 +68,20 @@
             dcvAllStudent.Location = new Point(12, 168);
             dcvAllStudent.Name = "dcvAllStudent";
             dcvAllStudent.RowHeadersWidth = 51;
-            dcvAllStudent.Size = new Size(840, 429);
+            dcvAllStudent.Size = new Size(967, 429);
             dcvAllStudent.TabIndex = 2;
             dcvAllStudent.CellContentClick += dcvAllStudent_CellContentClick;
             // 
-            // btnShow
-            // 
-            btnShow.Location = new Point(254, 102);
-            btnShow.Name = "btnShow";
-            btnShow.Size = new Size(105, 39);
-            btnShow.TabIndex = 3;
-            btnShow.Text = "Show";
-            btnShow.UseVisualStyleBackColor = true;
-            btnShow.Click += btnShow_Click;
-            // 
-            // lblFname
-            // 
-            lblFname.AutoSize = true;
-            lblFname.Location = new Point(872, 169);
-            lblFname.Name = "lblFname";
-            lblFname.Size = new Size(77, 20);
-            lblFname.TabIndex = 4;
-            lblFname.Text = "First name";
-            // 
-            // txtFname
-            // 
-            txtFname.Location = new Point(872, 192);
-            txtFname.Name = "txtFname";
-            txtFname.Size = new Size(263, 27);
-            txtFname.TabIndex = 5;
-            // 
-            // lblLname
-            // 
-            lblLname.AutoSize = true;
-            lblLname.Location = new Point(872, 244);
-            lblLname.Name = "lblLname";
-            lblLname.Size = new Size(76, 20);
-            lblLname.TabIndex = 6;
-            lblLname.Text = "Last name";
-            // 
-            // txtLname
-            // 
-            txtLname.Location = new Point(872, 267);
-            txtLname.Name = "txtLname";
-            txtLname.Size = new Size(263, 27);
-            txtLname.TabIndex = 7;
-            // 
-            // lblAddress
-            // 
-            lblAddress.AutoSize = true;
-            lblAddress.Location = new Point(872, 320);
-            lblAddress.Name = "lblAddress";
-            lblAddress.Size = new Size(62, 20);
-            lblAddress.TabIndex = 8;
-            lblAddress.Text = "Address";
-            // 
-            // txtAddress
-            // 
-            txtAddress.Location = new Point(872, 343);
-            txtAddress.Multiline = true;
-            txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(266, 53);
-            txtAddress.TabIndex = 9;
-            // 
-            // cmbGrade
-            // 
-            cmbGrade.FormattingEnabled = true;
-            cmbGrade.Location = new Point(872, 442);
-            cmbGrade.Name = "cmbGrade";
-            cmbGrade.Size = new Size(263, 28);
-            cmbGrade.TabIndex = 10;
-            // 
-            // lblGrade
-            // 
-            lblGrade.AutoSize = true;
-            lblGrade.Location = new Point(872, 415);
-            lblGrade.Name = "lblGrade";
-            lblGrade.Size = new Size(49, 20);
-            lblGrade.TabIndex = 11;
-            lblGrade.Text = "Grade";
-            // 
             // button1
             // 
-            button1.Location = new Point(376, 102);
+            button1.Location = new Point(0, 0);
             button1.Name = "button1";
-            button1.Size = new Size(119, 39);
-            button1.TabIndex = 12;
-            button1.Text = "Show Grade";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(872, 495);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 13;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(1041, 495);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 14;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // rdoMale
-            // 
-            rdoMale.AutoSize = true;
-            rdoMale.Location = new Point(875, 572);
-            rdoMale.Name = "rdoMale";
-            rdoMale.Size = new Size(63, 24);
-            rdoMale.TabIndex = 15;
-            rdoMale.TabStop = true;
-            rdoMale.Text = "Male";
-            rdoMale.UseVisualStyleBackColor = true;
-            rdoMale.CheckedChanged += rdoMale_CheckedChanged;
-            // 
-            // rdoFemale
-            // 
-            rdoFemale.AutoSize = true;
-            rdoFemale.Location = new Point(1041, 572);
-            rdoFemale.Name = "rdoFemale";
-            rdoFemale.Size = new Size(78, 24);
-            rdoFemale.TabIndex = 16;
-            rdoFemale.TabStop = true;
-            rdoFemale.Text = "Female";
-            rdoFemale.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(875, 543);
-            label1.Name = "label1";
-            label1.Size = new Size(57, 20);
-            label1.TabIndex = 17;
-            label1.Text = "Gender";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 24;
             // 
             // btnDBShow
             // 
-            btnDBShow.Location = new Point(515, 102);
+            btnDBShow.Location = new Point(259, 102);
             btnDBShow.Name = "btnDBShow";
             btnDBShow.Size = new Size(107, 39);
             btnDBShow.TabIndex = 18;
@@ -236,7 +91,7 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(642, 102);
+            btnEdit.Location = new Point(386, 102);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(94, 39);
             btnEdit.TabIndex = 19;
@@ -246,7 +101,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(758, 102);
+            btnDelete.Location = new Point(502, 102);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(94, 39);
             btnDelete.TabIndex = 20;
@@ -256,7 +111,7 @@
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(885, 102);
+            btnInsert.Location = new Point(629, 102);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(94, 39);
             btnInsert.TabIndex = 21;
@@ -269,7 +124,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold);
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(470, 14);
+            label2.Location = new Point(380, 16);
             label2.Name = "label2";
             label2.Size = new Size(201, 38);
             label2.TabIndex = 22;
@@ -281,7 +136,7 @@
             panel1.Controls.Add(label2);
             panel1.Location = new Point(12, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1126, 65);
+            panel1.Size = new Size(968, 65);
             panel1.TabIndex = 23;
             // 
             // databaseconnect
@@ -289,27 +144,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(1150, 609);
+            ClientSize = new Size(992, 609);
             Controls.Add(panel1);
             Controls.Add(btnInsert);
             Controls.Add(btnDelete);
             Controls.Add(btnEdit);
             Controls.Add(btnDBShow);
-            Controls.Add(label1);
-            Controls.Add(rdoFemale);
-            Controls.Add(rdoMale);
-            Controls.Add(button3);
-            Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(lblGrade);
-            Controls.Add(cmbGrade);
-            Controls.Add(txtAddress);
-            Controls.Add(lblAddress);
-            Controls.Add(txtLname);
-            Controls.Add(lblLname);
-            Controls.Add(txtFname);
-            Controls.Add(lblFname);
-            Controls.Add(btnShow);
             Controls.Add(dcvAllStudent);
             Controls.Add(btnAllStudent);
             Controls.Add(btnConnect);
@@ -320,7 +161,6 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -328,21 +168,7 @@
         private Button btnConnect;
         private Button btnAllStudent;
         private DataGridView dcvAllStudent;
-        private Button btnShow;
-        private Label lblFname;
-        private TextBox txtFname;
-        private Label lblLname;
-        private TextBox txtLname;
-        private Label lblAddress;
-        private TextBox txtAddress;
-        private ComboBox cmbGrade;
-        private Label lblGrade;
         private Button button1;
-        private Button button2;
-        private Button button3;
-        private RadioButton rdoMale;
-        private RadioButton rdoFemale;
-        private Label label1;
         private Button btnDBShow;
         private Button btnEdit;
         private Button btnDelete;

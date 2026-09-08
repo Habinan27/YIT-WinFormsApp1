@@ -41,7 +41,6 @@
             lblHouse = new Label();
             rdoFemale = new RadioButton();
             rdoMale = new RadioButton();
-            cmbGrade = new ComboBox();
             txtAddress = new TextBox();
             txtLastName = new TextBox();
             txtFirstName = new TextBox();
@@ -50,15 +49,16 @@
             lblAddress = new Label();
             lblLastName = new Label();
             lblFirstname = new Label();
-            cmbFamily = new ComboBox();
             dtpAdmission = new DateTimePicker();
-            cmbMedium = new ComboBox();
             lblAdmission = new Label();
             lblMedium = new Label();
             lblFamily = new Label();
-            cmbHouse = new ComboBox();
             panel1 = new Panel();
             lable01 = new Label();
+            txtMedium = new TextBox();
+            txtGrade = new TextBox();
+            txtHouse = new TextBox();
+            txtFamily = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -173,14 +173,6 @@
             rdoMale.Text = "Male";
             rdoMale.UseVisualStyleBackColor = true;
             // 
-            // cmbGrade
-            // 
-            cmbGrade.FormattingEnabled = true;
-            cmbGrade.Location = new Point(13, 381);
-            cmbGrade.Name = "cmbGrade";
-            cmbGrade.Size = new Size(262, 28);
-            cmbGrade.TabIndex = 37;
-            // 
             // txtAddress
             // 
             txtAddress.Location = new Point(13, 312);
@@ -247,28 +239,12 @@
             lblFirstname.TabIndex = 29;
             lblFirstname.Text = "First Name";
             // 
-            // cmbFamily
-            // 
-            cmbFamily.FormattingEnabled = true;
-            cmbFamily.Location = new Point(382, 533);
-            cmbFamily.Name = "cmbFamily";
-            cmbFamily.Size = new Size(260, 28);
-            cmbFamily.TabIndex = 56;
-            // 
             // dtpAdmission
             // 
             dtpAdmission.Location = new Point(382, 455);
             dtpAdmission.Name = "dtpAdmission";
             dtpAdmission.Size = new Size(260, 27);
             dtpAdmission.TabIndex = 55;
-            // 
-            // cmbMedium
-            // 
-            cmbMedium.FormattingEnabled = true;
-            cmbMedium.Location = new Point(382, 381);
-            cmbMedium.Name = "cmbMedium";
-            cmbMedium.Size = new Size(260, 28);
-            cmbMedium.TabIndex = 54;
             // 
             // lblAdmission
             // 
@@ -297,14 +273,6 @@
             lblFamily.TabIndex = 51;
             lblFamily.Text = "Family";
             // 
-            // cmbHouse
-            // 
-            cmbHouse.FormattingEnabled = true;
-            cmbHouse.Location = new Point(382, 311);
-            cmbHouse.Name = "cmbHouse";
-            cmbHouse.Size = new Size(260, 28);
-            cmbHouse.TabIndex = 57;
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.MenuHighlight;
@@ -326,18 +294,47 @@
             lable01.TabIndex = 0;
             lable01.Text = "Show Student information ";
             // 
+            // txtMedium
+            // 
+            txtMedium.Location = new Point(382, 387);
+            txtMedium.Name = "txtMedium";
+            txtMedium.Size = new Size(260, 27);
+            txtMedium.TabIndex = 59;
+            // 
+            // txtGrade
+            // 
+            txtGrade.Location = new Point(13, 387);
+            txtGrade.Name = "txtGrade";
+            txtGrade.Size = new Size(260, 27);
+            txtGrade.TabIndex = 60;
+            // 
+            // txtHouse
+            // 
+            txtHouse.Location = new Point(382, 312);
+            txtHouse.Name = "txtHouse";
+            txtHouse.Size = new Size(260, 27);
+            txtHouse.TabIndex = 61;
+            // 
+            // txtFamily
+            // 
+            txtFamily.Location = new Point(382, 533);
+            txtFamily.Name = "txtFamily";
+            txtFamily.Size = new Size(260, 27);
+            txtFamily.TabIndex = 62;
+            // 
             // frmshowstudent
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
             ClientSize = new Size(683, 570);
+            Controls.Add(txtFamily);
+            Controls.Add(txtHouse);
+            Controls.Add(txtGrade);
+            Controls.Add(txtMedium);
             Controls.Add(panel1);
             Controls.Add(txtNIC);
-            Controls.Add(cmbHouse);
-            Controls.Add(cmbFamily);
             Controls.Add(dtpAdmission);
-            Controls.Add(cmbMedium);
             Controls.Add(lblAdmission);
             Controls.Add(lblMedium);
             Controls.Add(lblFamily);
@@ -353,7 +350,6 @@
             Controls.Add(lblHouse);
             Controls.Add(rdoFemale);
             Controls.Add(rdoMale);
-            Controls.Add(cmbGrade);
             Controls.Add(txtAddress);
             Controls.Add(txtLastName);
             Controls.Add(txtFirstName);
@@ -386,7 +382,6 @@
         private Label lblHouse;
         private RadioButton rdoFemale;
         private RadioButton rdoMale;
-        private ComboBox cmbGrade;
         private TextBox txtAddress;
         private TextBox txtLastName;
         private TextBox txtFirstName;
@@ -395,14 +390,15 @@
         private Label lblAddress;
         private Label lblLastName;
         private Label lblFirstname;
-        private ComboBox cmbFamily;
         private DateTimePicker dtpAdmission;
-        private ComboBox cmbMedium;
         private Label lblAdmission;
         private Label lblMedium;
         private Label lblFamily;
-        private ComboBox cmbHouse;
         private Panel panel1;
         private Label lable01;
+        private TextBox txtMedium;
+        private TextBox txtGrade;
+        private TextBox txtHouse;
+        private TextBox txtFamily;
     }
 }

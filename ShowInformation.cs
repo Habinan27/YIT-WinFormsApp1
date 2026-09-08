@@ -154,7 +154,7 @@ namespace WinFormsApp1
 
                 //Load Families into ComboBox
 
-                string familyQuery = "SELECT id FROM families";
+                string familyQuery = "SELECT id, mobile_number FROM families";
 
                 MySqlDataAdapter familyAdapter =
                     new MySqlDataAdapter(familyQuery, conn);
@@ -163,7 +163,7 @@ namespace WinFormsApp1
                 familyAdapter.Fill(familyTable);
 
                 cmbFamily.DataSource = familyTable;
-                cmbFamily.DisplayMember = "id";
+                cmbFamily.DisplayMember = "mobile_number";
                 cmbFamily.ValueMember = "id";
 
 

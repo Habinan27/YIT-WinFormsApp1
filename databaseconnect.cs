@@ -58,7 +58,29 @@ namespace WinFormsApp1
             try
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM students", conn);
+                //MySqlCommand cmd = new MySqlCommand("SELECT * FROM students", conn);
+                MySqlCommand cmd = new MySqlCommand(@"
+            SELECT 
+                s.id,
+                s.admission_number,
+                s.first_name,
+                s.last_name,
+                s.gender,
+                s.date_of_birth,
+                s.nic_number,
+                s.birth_certificate_number,
+                s.tele_number,
+                h.house_name AS house_name,
+                g.grade_name AS grade_name,
+                s.medium,
+                s.date_of_admission,
+                s.per_address,
+                f.mobile_number AS family_mobile
+            FROM students s
+            LEFT JOIN houses h ON s.house_id = h.id
+            LEFT JOIN grades g ON s.grade_id = g.id
+            LEFT JOIN families f ON s.family_id = f.id
+        ", conn);
 
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -248,42 +270,42 @@ namespace WinFormsApp1
             //}
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+        //    MySqlConnection conn = new MySqlConnection(connString);
 
-            try
-            {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM grades", conn);
+        //    try
+        //    {
+        //        conn.Open();
+        //        MySqlCommand cmd = new MySqlCommand("SELECT * FROM grades", conn);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cmbGrade.DataSource = dt;
-                cmbGrade.DisplayMember = "grade_name";
-                cmbGrade.ValueMember = "id";
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("Error occurred while fetching student data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
+        //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+        //        DataTable dt = new DataTable();
+        //        da.Fill(dt);
+        //        cmbGrade.DataSource = dt;
+        //        cmbGrade.DisplayMember = "grade_name";
+        //        cmbGrade.ValueMember = "id";
+        //    }
+        //    catch (MySqlException ex)
+        //    {
+        //        MessageBox.Show("Error occurred while fetching student data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //    finally
+        //    {
+        //        conn.Close();
+        //    }
+        //}
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(cmbGrade.SelectedIndex.ToString());
-        }
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    MessageBox.Show(cmbGrade.SelectedIndex.ToString());
+        //}
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            cmbGrade.SelectedIndex = 0;
-        }
+        //private void button3_Click(object sender, EventArgs e)
+        //{
+        //    cmbGrade.SelectedIndex = 0;
+        //}
 
         private void rdoMale_CheckedChanged(object sender, EventArgs e)
         {
