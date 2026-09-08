@@ -66,7 +66,7 @@
             // 
             panel1.BackColor = SystemColors.GradientActiveCaption;
             panel1.Controls.Add(lable01);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(19, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(762, 61);
             panel1.TabIndex = 88;
@@ -77,7 +77,7 @@
             lable01.BackColor = SystemColors.GradientActiveCaption;
             lable01.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lable01.ForeColor = SystemColors.ActiveCaptionText;
-            lable01.Location = new Point(242, 9);
+            lable01.Location = new Point(249, 9);
             lable01.Name = "lable01";
             lable01.Size = new Size(281, 38);
             lable01.TabIndex = 0;

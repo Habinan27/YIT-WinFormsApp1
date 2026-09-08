@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -16,14 +17,21 @@ namespace WinFormsApp1
     {
         private object studentId;
 
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
+
         public databaseconnect()
         {
             InitializeComponent();
+
+            if (string.IsNullOrWhiteSpace(connString))
+            {
+                MessageBox.Show("Datebase connection string is missing. Please cheak your configuration","Configuration Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
+            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
@@ -44,7 +52,7 @@ namespace WinFormsApp1
 
         private void btnAllStudent_Click(object sender, EventArgs e)
         {
-            string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
+            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try

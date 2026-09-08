@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace WinFormsApp1
     public partial class ShowInformation : Form
     {
         private int studentITd;
+
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         public ShowInformation(
             string admissionNumber,
             string fname,
@@ -31,6 +34,7 @@ namespace WinFormsApp1
             string family)
         {
             InitializeComponent();
+            string studentId;
             txtAdmissionNo.Text = admissionNumber;
 
             txtFirstName.Text = fname;
@@ -49,8 +53,8 @@ namespace WinFormsApp1
             // GRADE ID
             if (grade != "")
             {
-                string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-                MySqlConnection conn = new MySqlConnection(connectionString);
+                //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+                MySqlConnection conn = new MySqlConnection(connString);
 
                 try
                 {
@@ -119,8 +123,8 @@ namespace WinFormsApp1
 
         private void ShowInformation_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
@@ -128,6 +132,7 @@ namespace WinFormsApp1
 
                 //Load grades into ComboBox
                 string gradeQuery = "SELECT id, grade_name FROM grades";
+
                 MySqlDataAdapter gradeAdapter = new MySqlDataAdapter(gradeQuery, conn);
                 DataTable gradeTable = new DataTable();
                 gradeAdapter.Fill(gradeTable);

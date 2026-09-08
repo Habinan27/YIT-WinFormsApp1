@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace WinFormsApp1
     public partial class frmEditGrade : Form
     {
         string gradeId;
+        string gradeColour;
+
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         public frmEditGrade(string? id)
         {
             InitializeComponent();
@@ -23,8 +27,8 @@ namespace WinFormsApp1
 
         private void frmEditGrade_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
@@ -41,8 +45,12 @@ namespace WinFormsApp1
                 txtGradeName.Text = dr["grade_name"].ToString();
                 txtGradeGroup.Text = dr["grade_group"].ToString();
                 txtGradeOrder.Text = dr["grade_order"].ToString();
-                txtGradeColour.Text = dr["colour"].ToString();
-
+                gradeColour = dr["colour"].ToString();
+                if (gradeColour != "")
+                {
+                    btnChooseColour.BackColor =
+                        ColorTranslator.FromHtml(gradeColour);
+                }
             }
             catch (Exception ex)
             {
@@ -56,13 +64,13 @@ namespace WinFormsApp1
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand($"update grades set grade_name='{txtGradeName.Text}',grade_group='{txtGradeGroup.Text}',grade_order='{txtGradeOrder.Text}',colour='{txtGradeColour.Text}' where id={this.gradeId}", conn);
+                MySqlCommand cmd = new MySqlCommand($"update grades set grade_name='{txtGradeName.Text}',grade_group='{txtGradeGroup.Text}',grade_order='{txtGradeOrder.Text}',colour='{gradeColour}' where id={this.gradeId}", conn);
 
                 string affectedRows = cmd.ExecuteNonQuery().ToString();
                 MessageBox.Show("Update Successfully.Row affected" + affectedRows, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -76,6 +84,15 @@ namespace WinFormsApp1
             finally
             {
                 conn.Close();
+            }
+        }
+
+        private void btnChooseColour_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                gradeColour = ColorTranslator.ToHtml(colorDialog1.Color);
+                btnChooseColour.BackColor = colorDialog1.Color;
             }
         }
     }

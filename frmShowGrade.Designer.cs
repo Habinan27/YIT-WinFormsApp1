@@ -22,10 +22,10 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
+        //<summary>
+        //Required method for Designer support - do not modify
+        //the contents of this method with the code editor.
+        //</summary>
         private void InitializeComponent()
         {
             panel1 = new Panel();
@@ -33,11 +33,12 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            txtGradeColour = new TextBox();
             txtGradeOrder = new TextBox();
             txtGradeGroup = new TextBox();
             txtGradeName = new TextBox();
             lblGradeName = new Label();
+            colorDialog1 = new ColorDialog();
+            btnChooseColour = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -88,13 +89,6 @@
             label1.TabIndex = 15;
             label1.Text = "Grade Group";
             // 
-            // txtGradeColour
-            // 
-            txtGradeColour.Location = new Point(27, 375);
-            txtGradeColour.Name = "txtGradeColour";
-            txtGradeColour.Size = new Size(340, 27);
-            txtGradeColour.TabIndex = 14;
-            // 
             // txtGradeOrder
             // 
             txtGradeOrder.Location = new Point(27, 287);
@@ -125,23 +119,31 @@
             lblGradeName.TabIndex = 10;
             lblGradeName.Text = "Grade Name";
             // 
+            // btnChooseColour
+            // 
+            btnChooseColour.Location = new Point(27, 362);
+            btnChooseColour.Name = "btnChooseColour";
+            btnChooseColour.Size = new Size(118, 42);
+            btnChooseColour.TabIndex = 39;
+            btnChooseColour.UseVisualStyleBackColor = true;
+            // 
             // frmShowGrade
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(401, 450);
+            Controls.Add(btnChooseColour);
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(txtGradeColour);
             Controls.Add(txtGradeOrder);
             Controls.Add(txtGradeGroup);
             Controls.Add(txtGradeName);
             Controls.Add(lblGradeName);
             Name = "frmShowGrade";
             Text = "Form5";
-            Load += this.frmShowGrade_Load;
+            Load += frmShowGrade_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -155,10 +157,11 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox txtGradeColour;
         private TextBox txtGradeOrder;
         private TextBox txtGradeGroup;
         private TextBox txtGradeName;
         private Label lblGradeName;
+        private ColorDialog colorDialog1;
+        private Button btnChooseColour;
     }
 }

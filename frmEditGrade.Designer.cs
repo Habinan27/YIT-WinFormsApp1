@@ -33,12 +33,13 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            txtGradeColour = new TextBox();
             txtGradeOrder = new TextBox();
             txtGradeGroup = new TextBox();
             txtGradeName = new TextBox();
             lblGradeName = new Label();
             btnUpdate = new Button();
+            btnChooseColour = new Button();
+            colorDialog1 = new ColorDialog();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -89,13 +90,6 @@
             label1.TabIndex = 24;
             label1.Text = "Grade Group";
             // 
-            // txtGradeColour
-            // 
-            txtGradeColour.Location = new Point(26, 359);
-            txtGradeColour.Name = "txtGradeColour";
-            txtGradeColour.Size = new Size(340, 27);
-            txtGradeColour.TabIndex = 23;
-            // 
             // txtGradeOrder
             // 
             txtGradeOrder.Location = new Point(26, 271);
@@ -136,17 +130,26 @@
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
+            // btnChooseColour
+            // 
+            btnChooseColour.Location = new Point(26, 351);
+            btnChooseColour.Name = "btnChooseColour";
+            btnChooseColour.Size = new Size(118, 42);
+            btnChooseColour.TabIndex = 39;
+            btnChooseColour.UseVisualStyleBackColor = true;
+            btnChooseColour.Click += btnChooseColour_Click;
+            // 
             // frmEditGrade
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(393, 471);
+            Controls.Add(btnChooseColour);
             Controls.Add(btnUpdate);
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(txtGradeColour);
             Controls.Add(txtGradeOrder);
             Controls.Add(txtGradeGroup);
             Controls.Add(txtGradeName);
@@ -167,11 +170,12 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox txtGradeColour;
         private TextBox txtGradeOrder;
         private TextBox txtGradeGroup;
         private TextBox txtGradeName;
         private Label lblGradeName;
         private Button btnUpdate;
+        private Button btnChooseColour;
+        private ColorDialog colorDialog1;
     }
 }

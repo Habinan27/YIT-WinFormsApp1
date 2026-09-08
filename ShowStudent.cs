@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace WinFormsApp1
 {
     public partial class frmshowstudent : Form
     {
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         //private int studentITd;
         //public frmshowstudent()
         //{
@@ -177,8 +179,8 @@ namespace WinFormsApp1
 
 
 
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
@@ -266,6 +268,19 @@ namespace WinFormsApp1
                 else
                 {
                     dtpDOB.Value = DateTime.Now;
+                }
+
+                //load Date of Admission into DateTimePicker
+                if (dr["date_of_admission"] != DBNull.Value)
+
+                {
+                    dtpAdmission.Value =
+                        Convert.ToDateTime(dr["date_of_birth"]);
+                }
+
+                else
+                {
+                    dtpAdmission.Value = DateTime.Now;
                 }
 
 

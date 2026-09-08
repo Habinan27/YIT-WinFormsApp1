@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace WinFormsApp1
 {
     public partial class EditStudent : Form
     {
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         //private int studentITd;
         //public frmshowstudent()
         //{
@@ -179,8 +181,8 @@ namespace WinFormsApp1
 
 
 
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
@@ -257,7 +259,7 @@ namespace WinFormsApp1
                     cmbGrade.Text = "N/A";
                 }
 
-                //Load Date of Birth into DateTimePicker
+                //Load admission date into DateTimePicker
                 if (dr["date_of_birth"] != DBNull.Value)
 
                 {
@@ -268,6 +270,19 @@ namespace WinFormsApp1
                 else
                 {
                     dtpDOB.Value = DateTime.Now;
+                }
+
+                //Load admission date into DateTimePicker
+                if (dr["date_of_admission"] != DBNull.Value)
+
+                {
+                    dtpAdmission.Value =
+                        Convert.ToDateTime(dr["date_of_admission"]);
+                }
+
+                else
+                {
+                    dtpAdmission.Value = DateTime.Now;
                 }
 
 
@@ -327,14 +342,29 @@ namespace WinFormsApp1
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand($"update students set admission_number='{txtAdmissionNo.Text}',first_name='{txtFirstName.Text}',last_name='{txtLastName.Text}',per_address='{txtAddress.Text}',nic_number='{txtNIC.Text}',tele_number='{txtTel.Text}',birth_certificate_number='{txtBirthNo.Text}',grade_id='{cmbGrade.SelectedValue}',house_id='{cmbHouse.SelectedValue}',medium='{cmbMedium.Text}',family_id='{cmbFamily.SelectedValue}' where id={this.studentId}",conn);
-
+                //MySqlCommand cmd = new MySqlCommand($"update students set admission_number='{txtAdmissionNo.Text}',first_name='{txtFirstName.Text}',last_name='{txtLastName.Text}',per_address='{txtAddress.Text}',nic_number='{txtNIC.Text}',tele_number='{txtTel.Text}',birth_certificate_number='{txtBirthNo.Text}',grade_id='{cmbGrade.SelectedValue}',house_id='{cmbHouse.SelectedValue}',medium='{cmbMedium.Text}',family_id='{cmbFamily.SelectedValue},date_of_birth={dtpDOB.Value:yyyy-MM-dd},date_of_Admission={dtpAdmission.Value:yyyy-MM-dd}' where id={this.studentId}",conn);
+                MySqlCommand cmd = new MySqlCommand(
+                                $"update students set " +
+                                $"admission_number='{txtAdmissionNo.Text}'," +
+                                $"first_name='{txtFirstName.Text}'," +
+                                $"last_name='{txtLastName.Text}'," +
+                                $"per_address='{txtAddress.Text}'," +
+                                $"nic_number='{txtNIC.Text}'," +
+                                $"tele_number='{txtTel.Text}'," +
+                                $"birth_certificate_number='{txtBirthNo.Text}'," +
+                                $"grade_id='{cmbGrade.SelectedValue}'," +
+                                $"house_id='{cmbHouse.SelectedValue}'," +
+                                $"medium='{cmbMedium.Text}'," +
+                                $"family_id='{cmbFamily.SelectedValue}'," +
+                                $"date_of_birth='{dtpDOB.Value:yyyy-MM-dd}'," +
+                                $"date_of_admission='{dtpAdmission.Value:yyyy-MM-dd}' " +
+                                $"where id={this.studentId}", conn);
                 string affectedRows = cmd.ExecuteNonQuery().ToString();
                 MessageBox.Show("Update Successfully.Row affected" + affectedRows, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

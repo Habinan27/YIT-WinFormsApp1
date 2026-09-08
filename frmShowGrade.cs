@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace WinFormsApp1
     public partial class frmShowGrade : Form
     {
         string gradeId;
+        string gradeColour;
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         public frmShowGrade(string? id)
         {
             InitializeComponent();
@@ -23,8 +26,8 @@ namespace WinFormsApp1
 
         private void frmShowGrade_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
@@ -41,7 +44,12 @@ namespace WinFormsApp1
                 txtGradeName.Text = dr["grade_name"].ToString();
                 txtGradeGroup.Text = dr["grade_group"].ToString();
                 txtGradeOrder.Text = dr["grade_order"].ToString();
-                txtGradeColour.Text = dr["colour"].ToString();
+                gradeColour = dr["colour"].ToString();
+                if (gradeColour != "")
+                {
+                    btnChooseColour.BackColor =
+                        ColorTranslator.FromHtml(gradeColour);
+                }
 
             }
             catch (Exception ex)

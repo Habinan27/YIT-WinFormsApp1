@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace WinFormsApp1
 {
     public partial class GradeTable : Form
     {
+
+        string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
         public GradeTable()
         {
             InitializeComponent();
@@ -25,7 +28,7 @@ namespace WinFormsApp1
 
         private void btnConnection_Click(object sender, EventArgs e)
         {
-            string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
+            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
@@ -46,7 +49,7 @@ namespace WinFormsApp1
 
         private void btnAllGrades_Click(object sender, EventArgs e)
         {
-            string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
+            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
