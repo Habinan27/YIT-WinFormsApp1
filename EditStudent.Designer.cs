@@ -293,7 +293,7 @@ namespace WinFormsApp1
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.MenuHighlight;
+            panel1.BackColor = Color.FromArgb(0, 0, 192);
             panel1.Controls.Add(lable01);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -303,10 +303,10 @@ namespace WinFormsApp1
             // lable01
             // 
             lable01.AutoSize = true;
-            lable01.BackColor = SystemColors.MenuHighlight;
+            lable01.BackColor = Color.FromArgb(0, 0, 192);
             lable01.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lable01.ForeColor = SystemColors.ButtonHighlight;
-            lable01.Location = new Point(162, 9);
+            lable01.Location = new Point(186, 9);
             lable01.Name = "lable01";
             lable01.Size = new Size(338, 38);
             lable01.TabIndex = 0;
@@ -340,7 +340,7 @@ namespace WinFormsApp1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.InactiveCaption;
+            BackColor = SystemColors.ControlLight;
             ClientSize = new Size(683, 638);
             Controls.Add(txtFamily);
             Controls.Add(txtHouse);

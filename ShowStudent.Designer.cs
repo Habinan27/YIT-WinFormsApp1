@@ -275,7 +275,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.MenuHighlight;
+            panel1.BackColor = Color.FromArgb(0, 0, 192);
             panel1.Controls.Add(lable01);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -285,7 +285,7 @@
             // lable01
             // 
             lable01.AutoSize = true;
-            lable01.BackColor = SystemColors.MenuHighlight;
+            lable01.BackColor = Color.FromArgb(0, 0, 192);
             lable01.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lable01.ForeColor = SystemColors.ButtonHighlight;
             lable01.Location = new Point(162, 9);

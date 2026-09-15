@@ -44,9 +44,9 @@
             // 
             // btnConnect
             // 
-            btnConnect.Location = new Point(12, 102);
+            btnConnect.Location = new Point(40, 102);
             btnConnect.Name = "btnConnect";
-            btnConnect.Size = new Size(105, 39);
+            btnConnect.Size = new Size(118, 48);
             btnConnect.TabIndex = 0;
             btnConnect.Text = "Connect";
             btnConnect.UseVisualStyleBackColor = true;
@@ -54,9 +54,9 @@
             // 
             // btnAllStudent
             // 
-            btnAllStudent.Location = new Point(132, 102);
+            btnAllStudent.Location = new Point(199, 102);
             btnAllStudent.Name = "btnAllStudent";
-            btnAllStudent.Size = new Size(105, 39);
+            btnAllStudent.Size = new Size(118, 48);
             btnAllStudent.TabIndex = 1;
             btnAllStudent.Text = "All student";
             btnAllStudent.UseVisualStyleBackColor = true;
@@ -64,6 +64,7 @@
             // 
             // dcvAllStudent
             // 
+            dcvAllStudent.BackgroundColor = SystemColors.ButtonHighlight;
             dcvAllStudent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dcvAllStudent.Location = new Point(12, 168);
             dcvAllStudent.Name = "dcvAllStudent";
@@ -81,9 +82,9 @@
             // 
             // btnDBShow
             // 
-            btnDBShow.Location = new Point(259, 102);
+            btnDBShow.Location = new Point(365, 102);
             btnDBShow.Name = "btnDBShow";
-            btnDBShow.Size = new Size(107, 39);
+            btnDBShow.Size = new Size(120, 48);
             btnDBShow.TabIndex = 18;
             btnDBShow.Text = "DB Show";
             btnDBShow.UseVisualStyleBackColor = true;
@@ -91,9 +92,9 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(386, 102);
+            btnEdit.Location = new Point(526, 102);
             btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(94, 39);
+            btnEdit.Size = new Size(107, 48);
             btnEdit.TabIndex = 19;
             btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = true;
@@ -101,9 +102,9 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(502, 102);
+            btnDelete.Location = new Point(682, 102);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(94, 39);
+            btnDelete.Size = new Size(107, 48);
             btnDelete.TabIndex = 20;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
@@ -111,9 +112,9 @@
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(629, 102);
+            btnInsert.Location = new Point(840, 102);
             btnInsert.Name = "btnInsert";
-            btnInsert.Size = new Size(94, 39);
+            btnInsert.Size = new Size(107, 48);
             btnInsert.TabIndex = 21;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = true;
@@ -124,7 +125,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold);
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(380, 16);
+            label2.Location = new Point(420, 15);
             label2.Name = "label2";
             label2.Size = new Size(201, 38);
             label2.TabIndex = 22;
@@ -132,7 +133,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.MenuHighlight;
+            panel1.BackColor = Color.FromArgb(0, 0, 192);
             panel1.Controls.Add(label2);
             panel1.Location = new Point(12, 10);
             panel1.Name = "panel1";
