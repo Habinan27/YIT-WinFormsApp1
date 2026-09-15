@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -19,6 +20,28 @@ namespace WinFormsApp1
         public frmCreateGrade()
         {
             InitializeComponent();
+        }
+        private void InsertGrade()
+        {
+            GradeDAL gradeDAL = new GradeDAL();
+
+            bool inserted = gradeDAL.Insert(
+                txtGradeName.Text,
+                txtGradeGroup.Text,
+                txtGradeOrder.Text,
+                gradeColour
+            );
+
+            if (inserted)
+            {
+                MessageBox.Show(
+                    "Grade inserted successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
+            }
         }
 
         private void frmCreateGrade_Load(object sender, EventArgs e)
@@ -62,20 +85,7 @@ namespace WinFormsApp1
                     return;
                 }
 
-                conn.Open();
-
-                MySqlCommand cmd = new MySqlCommand(
-                    $"INSERT INTO grades (grade_name,grade_group,grade_order,colour) VALUES ('{txtGradeName.Text}','{txtGradeGroup.Text}','{txtGradeOrder.Text}','{gradeColour}')",
-                    conn);
-
-                string affectedRows = cmd.ExecuteNonQuery().ToString();
-
-                MessageBox.Show("Create Successfully.Row affected" + affectedRows,
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.Close();
+                InsertGrade();
             }
             catch (MySqlException ex)
             {

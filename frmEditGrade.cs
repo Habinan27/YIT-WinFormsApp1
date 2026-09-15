@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -24,67 +25,94 @@ namespace WinFormsApp1
             this.gradeId = id;
 
         }
-
-        private void frmEditGrade_Load(object sender, EventArgs e)
+        private void UpdateGrade()
         {
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connString);
+            string gradeColour = ColorTranslator.ToHtml(
+                btnChooseColour.BackColor);
 
-            try
+            GradeDAL gradeDAL = new GradeDAL();
+
+            bool updated = gradeDAL.Update(
+                gradeId,
+                txtGradeName.Text,
+                txtGradeGroup.Text,
+                txtGradeOrder.Text,
+                gradeColour
+            );
+
+            if (updated)
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand($"select * from grades where id={this.gradeId}", conn);
+                MessageBox.Show(
+                    "Grade updated successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+                this.Close();
+            }
+        }
+        private void frmLoadGrade()
+        {
+            GradeDAL gradeDAL = new GradeDAL();
 
-                da.Fill(dt);
+            DataTable dt = gradeDAL.GetById(gradeId);
 
+            if (dt.Rows.Count > 0)
+            {
                 DataRow dr = dt.Rows[0];
 
                 txtGradeName.Text = dr["grade_name"].ToString();
                 txtGradeGroup.Text = dr["grade_group"].ToString();
                 txtGradeOrder.Text = dr["grade_order"].ToString();
-                gradeColour = dr["colour"].ToString();
+
+                string gradeColour = dr["colour"].ToString();
+
                 if (gradeColour != "")
                 {
                     btnChooseColour.BackColor =
                         ColorTranslator.FromHtml(gradeColour);
                 }
+                else
+                {
+                    btnChooseColour.BackColor = SystemColors.Control;
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Grade not found.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void frmEditGrade_Load(object sender, EventArgs e)
+        {
+            
+            try
+            {
+                frmLoadGrade();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-            finally
-            {
-                conn.Close();
-            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connString);
-
             try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand($"update grades set grade_name='{txtGradeName.Text}',grade_group='{txtGradeGroup.Text}',grade_order='{txtGradeOrder.Text}',colour='{gradeColour}' where id={this.gradeId}", conn);
-
-                string affectedRows = cmd.ExecuteNonQuery().ToString();
-                MessageBox.Show("Update Successfully.Row affected" + affectedRows, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                UpdateGrade();
+                frmLoadGrade();
             }
             catch (MySqlException ex)
             {
                 MessageBox.Show("An ereor occurred while connection to the database" + ex.Message);
 
             }
-            finally
-            {
-                conn.Close();
-            }
+           
         }
 
         private void btnChooseColour_Click(object sender, EventArgs e)

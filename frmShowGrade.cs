@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -26,18 +27,24 @@ namespace WinFormsApp1
 
         private void frmShowGrade_Load(object sender, EventArgs e)
         {
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand($"select * from grades where id={this.gradeId}", conn);
+                
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+                GradeDAL gradeDAL = new GradeDAL();
+                DataTable dt = gradeDAL.GetById(gradeId);
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Grade not found",
+                        "Information",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
-                da.Fill(dt);
+                    return;
+                }
 
                 DataRow dr = dt.Rows[0];
 
@@ -49,6 +56,10 @@ namespace WinFormsApp1
                 {
                     btnChooseColour.BackColor =
                         ColorTranslator.FromHtml(gradeColour);
+                }
+                else
+                {
+                    btnChooseColour.BackColor = SystemColors.Control;
                 }
 
             }

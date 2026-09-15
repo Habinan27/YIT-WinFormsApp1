@@ -135,15 +135,11 @@ namespace WinFormsApp1
         {
             try
             {
-                string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
-                frmshowstudent f = new frmshowstudent(id);
-                f.ShowDialog();
+                ShowStudent();
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
-                throw;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -174,43 +170,7 @@ namespace WinFormsApp1
                 MessageBox.Show(ex.Message);
             }
 
-            //DialogResult result = MessageBox.Show(
-            //    "Do you want to delete this student?",
-            //    "Confirm Delete",
-            //    MessageBoxButtons.YesNo,
-            //    MessageBoxIcon.Question);
-
-            //if (result == DialogResult.No)
-            //{
-            //    return;
-            //}
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            //MySqlConnection conn = new MySqlConnection(connectionString);
-
-            //try
-            //{
-            //    string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
-
-            //    conn.Open();
-
-            //    MySqlCommand cmd = new MySqlCommand($"DELETE FROM students WHERE id={id}", conn);
-
-            //    string affectedRows = cmd.ExecuteNonQuery().ToString();
-
-            //    MessageBox.Show("Delete Successfully.Row affected" + affectedRows,
-            //        "Success",
-            //        MessageBoxButtons.OK,
-            //        MessageBoxIcon.Information);
-
-            //}
-            //catch (MySqlException ex)
-            //{
-            //    MessageBox.Show("An ereor occurred while connection to the database" + ex.Message);
-            //}
-            //finally
-            //{
-            //    conn.Close();
-            //}
+            
         }
 
         private void btnInsert_Click(object sender, EventArgs e)

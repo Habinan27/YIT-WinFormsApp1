@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -21,6 +22,62 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        private void ShowGrade()
+        {
+            string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
+
+            frmShowGrade frm = new frmShowGrade(id);
+
+            frm.ShowDialog();
+        }
+        private void DeleteGrade()
+        {
+            string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
+
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this grade?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                GradeDAL gradeDAL = new GradeDAL();
+
+                bool deleted = gradeDAL.Delete(id);
+
+                if (deleted)
+                {
+                    MessageBox.Show(
+                        "Grade deleted successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                }
+            }
+        }
+
+        private void LoadGrade()
+        {
+            GradeDAL gradeDAL = new GradeDAL();
+
+            DataTable dt = gradeDAL.GetAll();
+
+            dgvAllGrades.DataSource = dt;
+        }
+
+        private void EditGrade()
+        {
+            string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
+
+            frmEditGrade frm = new frmEditGrade(id);
+
+            frm.ShowDialog();
+
+            LoadGrade();
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -28,7 +85,6 @@ namespace WinFormsApp1
 
         private void btnConnection_Click(object sender, EventArgs e)
         {
-            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
@@ -49,26 +105,14 @@ namespace WinFormsApp1
 
         private void btnAllGrades_Click(object sender, EventArgs e)
         {
-            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connString);
-
-            try
+            try 
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM grades", conn);
-
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgvAllGrades.DataSource = dt;
+                LoadGrade();
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Error retrieving data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show(ex.Message.ToString());
+                throw;
             }
         }
 
@@ -76,9 +120,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
-                frmShowGrade f = new frmShowGrade(id);
-                f.ShowDialog();
+                ShowGrade();
             }
 
             catch (Exception ex)
@@ -92,9 +134,7 @@ namespace WinFormsApp1
         {
             try
             {
-                string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
-                frmEditGrade f = new frmEditGrade(id);
-                f.ShowDialog();
+                EditGrade();
             }
 
             catch (Exception ex)
@@ -106,42 +146,15 @@ namespace WinFormsApp1
 
         private void btnDelete_Click_1(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "Do you want to delete this grade?",
-                "Confirm Delete",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.No)
-            {
-                return;
-            }
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
-
             try
             {
-                string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
-
-                conn.Open();
-
-                MySqlCommand cmd = new MySqlCommand($"DELETE FROM grades WHERE id={id}", conn);
-
-                string affectedRows = cmd.ExecuteNonQuery().ToString();
-
-                MessageBox.Show("Delete Successfully.Row affected" + affectedRows,
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
+                DeleteGrade();
+                LoadGrade();
             }
-            catch (MySqlException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("An ereor occurred while connection to the database" + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                MessageBox.Show(ex.Message.ToString());
+                throw;
             }
         }
 
@@ -149,6 +162,7 @@ namespace WinFormsApp1
         {
             frmCreateGrade student = new frmCreateGrade();
             student.ShowDialog();
+            LoadGrade();
         }
     }
 }
