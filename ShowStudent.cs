@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -175,138 +176,231 @@ namespace WinFormsApp1
 
         private void Frmdbshow_Load(object sender, EventArgs e)
         {
-            //txt_fname.Text = studentId;
 
+            StudentDal studentDal = new StudentDal();
 
+            DataTable dt = studentDal.GetById(this.studentId.ToString());
 
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connString);
-
-            try
+            if (dt.Rows.Count == 0)
             {
-                conn.Open();
+                MessageBox.Show(
+                    "Student not found",
+                    "Information",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-
-                //Load Student Data into Form Controls
-                //Load Student Data into Form Controls
-                MySqlCommand cmd = new MySqlCommand($@"
-                    SELECT 
-                        students.*,
-                        grades.grade_name,
-                        houses.house_name,
-                        families.mobile_number AS family_mobile
-                                         FROM students
-                        LEFT JOIN grades ON students.grade_id = grades.id
-                        LEFT JOIN houses ON students.house_id = houses.id
-                        LEFT JOIN families ON students.family_id = families.id
-                        WHERE students.id={this.studentId}", conn);
-
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-
-                da.Fill(dt);
-
-                if (dt.Rows.Count == 0)
-                {
-                    MessageBox.Show("Student not found", "Information",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                DataRow dr = dt.Rows[0];
-
-                //Load Student Data into TextBoxes
-                txtFirstName.Text = dr["first_name"].ToString();
-                txtLastName.Text = dr["last_name"].ToString();
-                txtAddress.Text = dr["per_address"].ToString();
-                txtAdmissionNo.Text = dr["admission_number"].ToString();
-                txtNIC.Text = dr["nic_number"].ToString();
-                txtTel.Text = dr["tele_number"].ToString();
-                txtBirthNo.Text = dr["birth_certificate_number"].ToString();
-
-                //Load Gender
-                string gender = dr["gender"].ToString();
-
-                rdoMale.Checked = gender == "M";
-                rdoFemale.Checked = gender == "F";
-
-                //Load Grade into TextBox
-                if (dr["grade_name"] != DBNull.Value)
-                {
-                    txtGrade.Text = dr["grade_name"].ToString();
-                }
-                else
-                {
-                    txtGrade.Text = "N/A";
-                }
-
-                //Load Date of Birth into DateTimePicker
-                if (dr["date_of_birth"] != DBNull.Value)
-
-                {
-                    dtpDOB.Value =
-                        Convert.ToDateTime(dr["date_of_birth"]);
-                }
-
-                else
-                {
-                    dtpDOB.Value = DateTime.Now;
-                }
-
-                //load Date of Admission into DateTimePicker
-                if (dr["date_of_admission"] != DBNull.Value)
-
-                {
-                    dtpAdmission.Value =
-                        Convert.ToDateTime(dr["date_of_birth"]);
-                }
-
-                else
-                {
-                    dtpAdmission.Value = DateTime.Now;
-                }
-
-
-                //Load House into ComboBoxes
-                if (dr["house_id"] != DBNull.Value)
-                {
-                    txtHouse.Text = dr["house_name"].ToString();
-                }
-                else
-                {
-                    txtHouse.Text = "N/A";
-                }
-
-                //Load Medium into ComboBoxes
-                if (dr["medium"] != DBNull.Value)
-                {
-                    txtMedium.Text =dr["medium"].ToString();
-                }
-                else
-                {
-                    txtMedium.Text = "N/A";
-                }
-
-                //Family ID
-
-                if (dr["family_mobile"] != DBNull.Value)
-                {
-                    txtFamily.Text = dr["family_mobile"].ToString();
-                }
-                else
-                {
-                    txtFamily.Text = "N/A";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
+                return;
             }
 
-            finally
+            DataRow dr = dt.Rows[0];
+
+            // Load Student Data
+            txtFirstName.Text = dr["first_name"].ToString();
+            txtLastName.Text = dr["last_name"].ToString();
+            txtAddress.Text = dr["per_address"].ToString();
+            txtAdmissionNo.Text = dr["admission_number"].ToString();
+            txtNIC.Text = dr["nic_number"].ToString();
+            txtTel.Text = dr["tele_number"].ToString();
+            txtBirthNo.Text = dr["birth_certificate_number"].ToString();
+
+            // Load Gender
+            string gender = dr["gender"].ToString();
+
+            rdoMale.Checked = gender == "M";
+            rdoFemale.Checked = gender == "F";
+
+            // Load Grade
+            if (dr["grade_name"] != DBNull.Value)
             {
-                conn.Close();
+                txtGrade.Text = dr["grade_name"].ToString();
             }
+            else
+            {
+                txtGrade.Text = "N/A";
+            }
+
+            // Load Date of Birth
+            if (dr["date_of_birth"] != DBNull.Value)
+            {
+                dtpDOB.Value = Convert.ToDateTime(dr["date_of_birth"]);
+            }
+            else
+            {
+                dtpDOB.Value = DateTime.Now;
+            }
+
+            // Load Date of Admission
+            if (dr["date_of_admission"] != DBNull.Value)
+            {
+                dtpAdmission.Value =
+                    Convert.ToDateTime(dr["date_of_admission"]);
+            }
+            else
+            {
+                dtpAdmission.Value = DateTime.Now;
+            }
+
+            // Load House
+            if (dr["house_name"] != DBNull.Value)
+            {
+                txtHouse.Text = dr["house_name"].ToString();
+            }
+            else
+            {
+                txtHouse.Text = "N/A";
+            }
+
+            // Load Medium
+            if (dr["medium"] != DBNull.Value)
+            {
+                txtMedium.Text = dr["medium"].ToString();
+            }
+            else
+            {
+                txtMedium.Text = "N/A";
+            }
+
+            // Load Family Mobile
+            if (dr["family_mobile"] != DBNull.Value)
+            {
+                txtFamily.Text = dr["family_mobile"].ToString();
+            }
+            else
+            {
+                txtFamily.Text = "N/A";
+            }
+            //    //txt_fname.Text = studentId;
+
+
+
+            //    //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
+            //    MySqlConnection conn = new MySqlConnection(connString);
+
+            //    try
+            //    {
+            //        conn.Open();
+
+
+            //        //Load Student Data into Form Controls
+            //        //Load Student Data into Form Controls
+            //        MySqlCommand cmd = new MySqlCommand($@"
+            //            SELECT 
+            //                students.*,
+            //                grades.grade_name,
+            //                houses.house_name,
+            //                families.mobile_number AS family_mobile
+            //                                 FROM students
+            //                LEFT JOIN grades ON students.grade_id = grades.id
+            //                LEFT JOIN houses ON students.house_id = houses.id
+            //                LEFT JOIN families ON students.family_id = families.id
+            //                WHERE students.id={this.studentId}", conn);
+
+            //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            //        DataTable dt = new DataTable();
+
+            //        da.Fill(dt);
+
+            //        if (dt.Rows.Count == 0)
+            //        {
+            //            MessageBox.Show("Student not found", "Information",
+            //                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            return;
+            //        }
+
+            //        DataRow dr = dt.Rows[0];
+
+            //        //Load Student Data into TextBoxes
+            //        txtFirstName.Text = dr["first_name"].ToString();
+            //        txtLastName.Text = dr["last_name"].ToString();
+            //        txtAddress.Text = dr["per_address"].ToString();
+            //        txtAdmissionNo.Text = dr["admission_number"].ToString();
+            //        txtNIC.Text = dr["nic_number"].ToString();
+            //        txtTel.Text = dr["tele_number"].ToString();
+            //        txtBirthNo.Text = dr["birth_certificate_number"].ToString();
+
+            //        //Load Gender
+            //        string gender = dr["gender"].ToString();
+
+            //        rdoMale.Checked = gender == "M";
+            //        rdoFemale.Checked = gender == "F";
+
+            //        //Load Grade into TextBox
+            //        if (dr["grade_name"] != DBNull.Value)
+            //        {
+            //            txtGrade.Text = dr["grade_name"].ToString();
+            //        }
+            //        else
+            //        {
+            //            txtGrade.Text = "N/A";
+            //        }
+
+            //        //Load Date of Birth into DateTimePicker
+            //        if (dr["date_of_birth"] != DBNull.Value)
+
+            //        {
+            //            dtpDOB.Value =
+            //                Convert.ToDateTime(dr["date_of_birth"]);
+            //        }
+
+            //        else
+            //        {
+            //            dtpDOB.Value = DateTime.Now;
+            //        }
+
+            //        //load Date of Admission into DateTimePicker
+            //        if (dr["date_of_admission"] != DBNull.Value)
+
+            //        {
+            //            dtpAdmission.Value =
+            //                Convert.ToDateTime(dr["date_of_birth"]);
+            //        }
+
+            //        else
+            //        {
+            //            dtpAdmission.Value = DateTime.Now;
+            //        }
+
+
+            //        //Load House into ComboBoxes
+            //        if (dr["house_id"] != DBNull.Value)
+            //        {
+            //            txtHouse.Text = dr["house_name"].ToString();
+            //        }
+            //        else
+            //        {
+            //            txtHouse.Text = "N/A";
+            //        }
+
+            //        //Load Medium into ComboBoxes
+            //        if (dr["medium"] != DBNull.Value)
+            //        {
+            //            txtMedium.Text =dr["medium"].ToString();
+            //        }
+            //        else
+            //        {
+            //            txtMedium.Text = "N/A";
+            //        }
+
+            //        //Family ID
+
+            //        if (dr["family_mobile"] != DBNull.Value)
+            //        {
+            //            txtFamily.Text = dr["family_mobile"].ToString();
+            //        }
+            //        else
+            //        {
+            //            txtFamily.Text = "N/A";
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message.ToString());
+            //    }
+
+            //    finally
+            //    {
+            //        conn.Close();
+            //    }
         }
 
         private void lbl_familyid_Click(object sender, EventArgs e)

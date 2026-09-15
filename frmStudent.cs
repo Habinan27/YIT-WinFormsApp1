@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1.DAL;
 
 namespace WinFormsApp1
 {
@@ -17,6 +18,42 @@ namespace WinFormsApp1
         {
             InitializeComponent();
 
+        }
+
+
+        private void InsertStudent()
+        {
+            string gender = rdoMale.Checked ? "M" : "F";
+
+            StudentDal studentDal = new StudentDal();
+
+            bool inserted = studentDal.Insert(
+                txtAdmissionNo.Text,
+                txtFirstName.Text,
+                txtLastName.Text,
+                gender,
+                dtpDOB.Value,
+                txtNIC.Text,
+                txtBirthNo.Text,
+                txtTel.Text,
+                txtAddress.Text,
+                cmbGrade.SelectedValue.ToString(),
+                txtHouse.Text,
+                cmbMedium.Text,
+                txtFamily.Text,
+                dtpAdmission.Value
+            );
+
+            if (inserted)
+            {
+                MessageBox.Show(
+                    "Student inserted successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
+            }
         }
 
         string studentId;
@@ -156,54 +193,17 @@ namespace WinFormsApp1
                     return;
                 }
 
-                conn.Open();
-
-                string gender = rdoMale.Checked ? "M" : "F";
-
-                // Create new House
-                string houseName = txtHouse.Text;
-
-                MySqlCommand houseCmd = new MySqlCommand(
-                    $"INSERT INTO houses (house_name) VALUES ('{houseName}')",
-                    conn);
-
-                houseCmd.ExecuteNonQuery();
-
-                string houseId = houseCmd.LastInsertedId.ToString();
-
-                // Create new Family
-                string mobile_number = txtFamily.Text;
-
-                MySqlCommand familyCmd = new MySqlCommand(
-                    $"INSERT INTO families (mobile_number) VALUES ('{mobile_number}')",
-                    conn);
-
-                familyCmd.ExecuteNonQuery();
-
-                string familyId = familyCmd.LastInsertedId.ToString();
-
-                // Insert Student
-                MySqlCommand cmd = new MySqlCommand(
-                    $"INSERT INTO students (admission_number,first_name,last_name,gender,date_of_birth,nic_number,birth_certificate_number,tele_number,per_address,grade_id,house_id,medium,date_of_admission,family_id) VALUES ('{txtAdmissionNo.Text}','{txtFirstName.Text}','{txtLastName.Text}','{gender}','{dtpDOB.Value.ToString("yyyy-MM-dd")}','{txtNIC.Text}','{txtBirthNo.Text}','{txtTel.Text}','{txtAddress.Text}','{cmbGrade.SelectedValue}','{houseId}','{cmbMedium.Text}','{dtpAdmission.Value.ToString("yyyy-MM-dd")}','{familyId}')",
-                    conn);
-
-                string affectedRows = cmd.ExecuteNonQuery().ToString();
-
-                MessageBox.Show("Create Successfully.Row affected" + affectedRows,
-                    "Success",
+                InsertStudent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.Close();
+                    MessageBoxIcon.Error);
             }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("An error occurred while connection to the database" + ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+           
 
         }
     }

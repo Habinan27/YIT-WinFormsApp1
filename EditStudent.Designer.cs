@@ -51,16 +51,16 @@ namespace WinFormsApp1
             lblAddress = new Label();
             lblLastName = new Label();
             lblFirstname = new Label();
-            cmbFamily = new ComboBox();
             dtpAdmission = new DateTimePicker();
             cmbMedium = new ComboBox();
             lblAdmission = new Label();
             lblMedium = new Label();
             lblFamily = new Label();
-            cmbHouse = new ComboBox();
             panel1 = new Panel();
             lable01 = new Label();
             btnUpdate = new Button();
+            txtHouse = new TextBox();
+            txtFamily = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -249,14 +249,6 @@ namespace WinFormsApp1
             lblFirstname.TabIndex = 29;
             lblFirstname.Text = "First Name";
             // 
-            // cmbFamily
-            // 
-            cmbFamily.FormattingEnabled = true;
-            cmbFamily.Location = new Point(382, 533);
-            cmbFamily.Name = "cmbFamily";
-            cmbFamily.Size = new Size(260, 28);
-            cmbFamily.TabIndex = 56;
-            // 
             // dtpAdmission
             // 
             dtpAdmission.Location = new Point(382, 455);
@@ -299,14 +291,6 @@ namespace WinFormsApp1
             lblFamily.TabIndex = 51;
             lblFamily.Text = "Family";
             // 
-            // cmbHouse
-            // 
-            cmbHouse.FormattingEnabled = true;
-            cmbHouse.Location = new Point(382, 311);
-            cmbHouse.Name = "cmbHouse";
-            cmbHouse.Size = new Size(260, 28);
-            cmbHouse.TabIndex = 57;
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.MenuHighlight;
@@ -338,17 +322,31 @@ namespace WinFormsApp1
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
+            // txtHouse
+            // 
+            txtHouse.Location = new Point(384, 314);
+            txtHouse.Name = "txtHouse";
+            txtHouse.Size = new Size(258, 27);
+            txtHouse.TabIndex = 60;
+            // 
+            // txtFamily
+            // 
+            txtFamily.Location = new Point(384, 531);
+            txtFamily.Name = "txtFamily";
+            txtFamily.Size = new Size(258, 27);
+            txtFamily.TabIndex = 61;
+            // 
             // EditStudent
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
             ClientSize = new Size(683, 638);
+            Controls.Add(txtFamily);
+            Controls.Add(txtHouse);
             Controls.Add(btnUpdate);
             Controls.Add(panel1);
             Controls.Add(txtNIC);
-            Controls.Add(cmbHouse);
-            Controls.Add(cmbFamily);
             Controls.Add(dtpAdmission);
             Controls.Add(cmbMedium);
             Controls.Add(lblAdmission);
@@ -413,15 +411,15 @@ namespace WinFormsApp1
         private Label lblAddress;
         private Label lblLastName;
         private Label lblFirstname;
-        private ComboBox cmbFamily;
         private DateTimePicker dtpAdmission;
         private ComboBox cmbMedium;
         private Label lblAdmission;
         private Label lblMedium;
         private Label lblFamily;
-        private ComboBox cmbHouse;
         private Panel panel1;
         private Label lable01;
         private Button btnUpdate;
+        private TextBox txtHouse;
+        private TextBox txtFamily;
     }
 }
