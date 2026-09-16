@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,42 +19,6 @@ namespace WinFormsApp1
         {
             InitializeComponent();
 
-        }
-
-
-        private void InsertStudent()
-        {
-            string gender = rdoMale.Checked ? "M" : "F";
-
-            StudentDal studentDal = new StudentDal();
-
-            bool inserted = studentDal.Insert(
-                txtAdmissionNo.Text,
-                txtFirstName.Text,
-                txtLastName.Text,
-                gender,
-                dtpDOB.Value,
-                txtNIC.Text,
-                txtBirthNo.Text,
-                txtTel.Text,
-                txtAddress.Text,
-                cmbGrade.SelectedValue.ToString(),
-                txtHouse.Text,
-                cmbMedium.Text,
-                txtFamily.Text,
-                dtpAdmission.Value
-            );
-
-            if (inserted)
-            {
-                MessageBox.Show(
-                    "Student inserted successfully.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.Close();
-            }
         }
 
         string studentId;
@@ -104,11 +69,10 @@ namespace WinFormsApp1
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
 
             try
             {
+                
                 // Validation
                 if (txtAdmissionNo.Text == "")
                 {
@@ -192,8 +156,31 @@ namespace WinFormsApp1
                     txtFamily.Focus();
                     return;
                 }
+                StudentDal studentDal = new StudentDal();
+                studentDal.Insert(
+                    txtAdmissionNo.Text,
+                    txtFirstName.Text,
+                    txtLastName.Text,
+                    rdoMale.Checked ? "M" : "F",
+                    dtpDOB.Value,
+                    txtNIC.Text,
+                    txtBirthNo.Text,
+                    txtTel.Text,
+                    txtAddress.Text,
+                    cmbGrade.SelectedValue.ToString(),
+                    txtHouse.Text,
+                    cmbMedium.Text,
+                    txtFamily.Text,
+                    dtpAdmission.Value
+                );
 
-                InsertStudent();
+                MessageBox.Show(
+                    "Grade inserted successfully.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -202,8 +189,9 @@ namespace WinFormsApp1
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+
             }
-           
+                      
 
         }
     }

@@ -31,13 +31,13 @@
             btnConnect = new Button();
             btnAllStudent = new Button();
             dcvAllStudent = new DataGridView();
-            button1 = new Button();
             btnDBShow = new Button();
             btnEdit = new Button();
             btnDelete = new Button();
             btnInsert = new Button();
             label2 = new Label();
             panel1 = new Panel();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dcvAllStudent).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -72,13 +72,6 @@
             dcvAllStudent.Size = new Size(967, 429);
             dcvAllStudent.TabIndex = 2;
             dcvAllStudent.CellContentClick += dcvAllStudent_CellContentClick;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(0, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 24;
             // 
             // btnDBShow
             // 
@@ -140,6 +133,13 @@
             panel1.Size = new Size(968, 65);
             panel1.TabIndex = 23;
             // 
+            // button1
+            // 
+            button1.Location = new Point(0, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 24;
+            // 
             // databaseconnect
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -169,12 +169,12 @@
         private Button btnConnect;
         private Button btnAllStudent;
         private DataGridView dcvAllStudent;
-        private Button button1;
         private Button btnDBShow;
         private Button btnEdit;
         private Button btnDelete;
         private Button btnInsert;
         private Label label2;
         private Panel panel1;
+        private Button button1;
     }
 }

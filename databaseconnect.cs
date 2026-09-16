@@ -31,14 +31,7 @@ namespace WinFormsApp1
             }
         }
 
-        private void ShowStudent()
-        {
-            string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
-
-            frmshowstudent frm = new frmshowstudent(id);
-
-            frm.ShowDialog();
-        }
+        
 
         private void LoadStudents()
         {
@@ -117,7 +110,11 @@ namespace WinFormsApp1
         {
             try
             {
-                ShowStudent();
+                string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
+
+                frmshowstudent frm = new frmshowstudent(id);
+
+                frm.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -135,7 +132,11 @@ namespace WinFormsApp1
         {
             try
             {
-                ShowStudent();
+                string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
+
+                frmshowstudent frm = new frmshowstudent(id);
+
+                frm.ShowDialog();
             }
             catch (Exception ex)
             {

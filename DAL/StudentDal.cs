@@ -157,20 +157,20 @@ namespace WinFormsApp1.DAL
         }
 
         public bool Insert(
-                string admissionNumber,
-                string firstName,
-                string lastName,
-                string gender,
-                DateTime dateOfBirth,
-                string nicNumber,
-                string birthCertificateNumber,
-                string telephone,
-                string address,
-                string gradeId,
-                string houseName,
-                string medium,
-                string familyMobile,
-                DateTime dateOfAdmission)
+                    string admissionNumber,
+                    string firstName,
+                    string lastName,
+                    string gender,
+                    DateTime dateOfBirth,
+                    string nicNumber,
+                    string birthCertificateNumber,
+                    string telephone,
+                    string address,
+                    string gradeId,
+                    string houseName,
+                    string medium,
+                    string familyMobile,
+                    DateTime dateOfAdmission)
         {
             MySqlConnection conn = new MySqlConnection(connString);
 
@@ -178,26 +178,60 @@ namespace WinFormsApp1.DAL
             {
                 conn.Open();
 
-                // Create House
-                MySqlCommand houseCmd = new MySqlCommand(
-                    "INSERT INTO houses (house_name) VALUES (@house_name)",
+                // Check House
+                string houseId = "";
+
+                MySqlCommand houseCheckCmd = new MySqlCommand(
+                    "SELECT id FROM houses WHERE house_name = @house_name LIMIT 1",
                     conn);
 
-                houseCmd.Parameters.AddWithValue("@house_name", houseName);
-                houseCmd.ExecuteNonQuery();
+                houseCheckCmd.Parameters.AddWithValue("@house_name", houseName);
 
-                string houseId = houseCmd.LastInsertedId.ToString();
+                object houseResult = houseCheckCmd.ExecuteScalar();
+
+                if (houseResult != null)
+                {
+                    houseId = houseResult.ToString();
+                }
+                else
+                {
+                    MySqlCommand houseCmd = new MySqlCommand(
+                        "INSERT INTO houses (house_name) VALUES (@house_name)",
+                        conn);
+
+                    houseCmd.Parameters.AddWithValue("@house_name", houseName);
+                    houseCmd.ExecuteNonQuery();
+
+                    houseId = houseCmd.LastInsertedId.ToString();
+                }
 
 
-                // Create Family
-                MySqlCommand familyCmd = new MySqlCommand(
-                    "INSERT INTO families (mobile_number) VALUES (@mobile_number)",
+                // Check Family
+                string familyId = "";
+
+                MySqlCommand familyCheckCmd = new MySqlCommand(
+                    "SELECT id FROM families WHERE mobile_number = @mobile_number LIMIT 1",
                     conn);
 
-                familyCmd.Parameters.AddWithValue("@mobile_number", familyMobile);
-                familyCmd.ExecuteNonQuery();
+                familyCheckCmd.Parameters.AddWithValue("@mobile_number", familyMobile);
 
-                string familyId = familyCmd.LastInsertedId.ToString();
+                object familyResult = familyCheckCmd.ExecuteScalar();
+
+                if (familyResult != null)
+                {
+                    familyId = familyResult.ToString();
+                }
+                else
+                {
+                    MySqlCommand familyCmd = new MySqlCommand(
+                        "INSERT INTO families (mobile_number) VALUES (@mobile_number)",
+                        conn);
+
+                    familyCmd.Parameters.AddWithValue("@mobile_number", familyMobile);
+                    familyCmd.ExecuteNonQuery();
+
+                    familyId = familyCmd.LastInsertedId.ToString();
+                }
 
 
                 // Insert Student

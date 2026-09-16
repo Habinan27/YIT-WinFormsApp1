@@ -25,41 +25,7 @@ namespace WinFormsApp1
             this.Load += Editstudent_load;
         }
 
-        private void UpdateStudent()
-        {
-            string gender = rdoMale.Checked ? "M" : "F";
-
-            StudentDal studentDal = new StudentDal();
-
-            bool updated = studentDal.Update(
-                studentId,
-                txtAdmissionNo.Text,
-                txtFirstName.Text,
-                txtLastName.Text,
-                gender,
-                txtNIC.Text,
-                txtBirthNo.Text,
-                txtTel.Text,
-                txtAddress.Text,
-                cmbGrade.SelectedValue.ToString(),
-                txtHouse.Text,
-                cmbMedium.Text,
-                txtFamily.Text,
-                dtpDOB.Value,
-                dtpAdmission.Value
-            );
-
-            if (updated)
-            {
-                MessageBox.Show(
-                    "Student updated successfully.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.Close();
-            }
-        }
+        
 
         private void Editstudent_load(object sender, EventArgs e)
         {
@@ -259,7 +225,36 @@ namespace WinFormsApp1
         {
             try
             {
-                UpdateStudent();
+                string gender = rdoMale.Checked ? "M" : "F";
+                StudentDal studentDal = new StudentDal();
+                bool updated = studentDal.Update(
+                    studentId,
+                    txtAdmissionNo.Text,
+                    txtFirstName.Text,
+                    txtLastName.Text,
+                    gender,
+                    txtNIC.Text,
+                    txtBirthNo.Text,
+                    txtTel.Text,
+                    txtAddress.Text,
+                    cmbGrade.SelectedValue.ToString(),
+                    txtHouse.Text,
+                    cmbMedium.Text,
+                    txtFamily.Text,
+                    dtpDOB.Value,
+                    dtpAdmission.Value
+                );
+
+                if (updated)
+                {
+                    MessageBox.Show(
+                        "Student updated successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
