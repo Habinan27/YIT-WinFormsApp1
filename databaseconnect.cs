@@ -27,11 +27,11 @@ namespace WinFormsApp1
 
             if (string.IsNullOrWhiteSpace(connString))
             {
-                MessageBox.Show("Datebase connection string is missing. Please cheak your configuration","Configuration Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Datebase connection string is missing. Please cheak your configuration", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        
+
 
         private void LoadStudents()
         {
@@ -99,7 +99,7 @@ namespace WinFormsApp1
             dcvAllStudent.DataSource = dt;
         }
 
-        
+
 
         private void dcvAllStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -120,7 +120,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void rdoMale_CheckedChanged(object sender, EventArgs e)
@@ -171,7 +171,7 @@ namespace WinFormsApp1
                 MessageBox.Show(ex.Message);
             }
 
-            
+
         }
 
         private void btnInsert_Click(object sender, EventArgs e)
@@ -179,6 +179,17 @@ namespace WinFormsApp1
             frmStudent student = new frmStudent();
             student.ShowDialog();
             LoadStudents();
+        }
+
+        private void btnAddSubject_Click(object sender, EventArgs e)
+        {
+            int studentId = Convert.ToInt32(
+                dcvAllStudent.CurrentRow.Cells["id"].Value
+            );
+
+            frmAddSubject frm = new frmAddSubject(studentId);
+
+            frm.ShowDialog();
         }
     }
 }

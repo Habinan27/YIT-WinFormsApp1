@@ -51,6 +51,7 @@ namespace WinFormsApp1
                 this.Close();
             }
         }
+        
         private void frmLoadGrade()
         {
             GradeDAL gradeDAL = new GradeDAL();

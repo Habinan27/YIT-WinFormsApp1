@@ -38,13 +38,14 @@
             label2 = new Label();
             panel1 = new Panel();
             button1 = new Button();
+            btnAddSubject = new Button();
             ((System.ComponentModel.ISupportInitialize)dcvAllStudent).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // btnConnect
             // 
-            btnConnect.Location = new Point(40, 102);
+            btnConnect.Location = new Point(17, 102);
             btnConnect.Name = "btnConnect";
             btnConnect.Size = new Size(118, 48);
             btnConnect.TabIndex = 0;
@@ -54,7 +55,7 @@
             // 
             // btnAllStudent
             // 
-            btnAllStudent.Location = new Point(199, 102);
+            btnAllStudent.Location = new Point(157, 102);
             btnAllStudent.Name = "btnAllStudent";
             btnAllStudent.Size = new Size(118, 48);
             btnAllStudent.TabIndex = 1;
@@ -75,7 +76,7 @@
             // 
             // btnDBShow
             // 
-            btnDBShow.Location = new Point(365, 102);
+            btnDBShow.Location = new Point(300, 102);
             btnDBShow.Name = "btnDBShow";
             btnDBShow.Size = new Size(120, 48);
             btnDBShow.TabIndex = 18;
@@ -85,7 +86,7 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(526, 102);
+            btnEdit.Location = new Point(443, 102);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(107, 48);
             btnEdit.TabIndex = 19;
@@ -95,7 +96,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(682, 102);
+            btnDelete.Location = new Point(573, 102);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(107, 48);
             btnDelete.TabIndex = 20;
@@ -105,7 +106,7 @@
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(840, 102);
+            btnInsert.Location = new Point(705, 102);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(107, 48);
             btnInsert.TabIndex = 21;
@@ -140,12 +141,23 @@
             button1.Size = new Size(75, 23);
             button1.TabIndex = 24;
             // 
+            // btnAddSubject
+            // 
+            btnAddSubject.Location = new Point(840, 103);
+            btnAddSubject.Name = "btnAddSubject";
+            btnAddSubject.Size = new Size(107, 46);
+            btnAddSubject.TabIndex = 25;
+            btnAddSubject.Text = "Add subject";
+            btnAddSubject.UseVisualStyleBackColor = true;
+            btnAddSubject.Click += btnAddSubject_Click;
+            // 
             // databaseconnect
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(992, 609);
+            Controls.Add(btnAddSubject);
             Controls.Add(panel1);
             Controls.Add(btnInsert);
             Controls.Add(btnDelete);
@@ -176,5 +188,6 @@
         private Label label2;
         private Panel panel1;
         private Button button1;
+        private Button btnAddSubject;
     }
 }

@@ -31,8 +31,6 @@ namespace WinFormsApp1
 
             try
             {
-                
-
                 GradeDAL gradeDAL = new GradeDAL();
                 DataTable dt = gradeDAL.GetById(gradeId);
                 if (dt.Rows.Count == 0)
