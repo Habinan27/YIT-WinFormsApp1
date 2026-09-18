@@ -12,16 +12,17 @@ namespace WinFormsApp1.DAL
     internal class StudentDal
     {
         string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
-        public DataTable GetAll()
+        public async Task<DataTable>GetAll()
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+           
             DataTable dt = new DataTable();
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
-                MySqlCommand cmd = new MySqlCommand(@"
+                await using MySqlCommand cmd = new MySqlCommand(@"
             SELECT 
                 students.id,
                 students.admission_number,
@@ -53,9 +54,8 @@ namespace WinFormsApp1.DAL
                 ON students.family_id = families.id
         ", conn);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-                da.Fill(dt);
+                await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
+                dt.Load(reader);
 
                 return dt;
             }
@@ -69,10 +69,7 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
         public DataTable GetById(string id)

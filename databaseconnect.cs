@@ -19,7 +19,7 @@ namespace WinFormsApp1
         private object studentId;
 
         string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
-        private object dgvAllStudent;
+        //private object dgvAllStudent;
 
         public databaseconnect()
         {
@@ -33,11 +33,11 @@ namespace WinFormsApp1
 
 
 
-        private void LoadStudents()
+        private async void LoadStudents()
         {
             StudentDal studentDal = new StudentDal();
 
-            DataTable dt = studentDal.GetAll();
+            DataTable dt = await studentDal.GetAll();
 
             dcvAllStudent.DataSource = dt;
         }
@@ -92,10 +92,10 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnAllStudent_Click(object sender, EventArgs e)
+        private async void btnAllStudent_Click(object sender, EventArgs e)
         {
             StudentDal studentDal = new StudentDal();
-            DataTable dt = studentDal.GetAll();
+            DataTable dt = await studentDal.GetAll();
             dcvAllStudent.DataSource = dt;
         }
 
