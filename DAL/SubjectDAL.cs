@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,9 +11,7 @@ namespace WinFormsApp1.DAL
 {
     internal class SubjectDAL
     {
-        string connString =
-            ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString
-            ?? string.Empty;
+        string connString =ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
 
         public DataTable GetAll()
         {
