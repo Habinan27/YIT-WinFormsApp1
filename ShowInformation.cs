@@ -58,12 +58,12 @@ namespace WinFormsApp1
 
                 try
                 {
+                   
+                    MySqlCommand gradecmd = new MySqlCommand("SELECT * FROM grades", conn);
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand("SELECT * FROM grades", conn);
-
-                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    MySqlDataReader da = gradecmd.ExecuteReader();
                     DataTable dt = new DataTable();
-                    da.Fill(dt);
+                    dt.Load(da);
                     cmbGrade.DataSource = dt;
                     cmbGrade.DisplayMember = "grade_name";
                     cmbGrade.ValueMember = "id";
@@ -121,21 +121,21 @@ namespace WinFormsApp1
             }
         }
 
-        private void ShowInformation_Load(object sender, EventArgs e)
+        private async void ShowInformation_Load(object sender, EventArgs e)
         {
-            //string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connString);
-
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 //Load grades into ComboBox
                 string gradeQuery = "SELECT id, grade_name FROM grades";
 
-                MySqlDataAdapter gradeAdapter = new MySqlDataAdapter(gradeQuery, conn);
+                MySqlCommand gradecmd = new MySqlCommand(gradeQuery, conn);
+                await using MySqlDataReader gradereader = await gradecmd.ExecuteReaderAsync();
+
                 DataTable gradeTable = new DataTable();
-                gradeAdapter.Fill(gradeTable);
+                gradeTable.Load(gradereader);
 
                 cmbGrade.DataSource = gradeTable;
                 cmbGrade.DisplayMember = "grade_name";
@@ -144,9 +144,10 @@ namespace WinFormsApp1
                 //Load Houses into ComboBox
                 string houseQuery = "SELECT id, house_name FROM houses";
 
-                MySqlDataAdapter houseAdapter = new MySqlDataAdapter(houseQuery, conn);
+                MySqlCommand housecmd = new MySqlCommand(houseQuery, conn);
+                await using MySqlDataReader housereader = await housecmd.ExecuteReaderAsync();
                 DataTable houseTable = new DataTable();
-                houseAdapter.Fill(houseTable);
+                houseTable.Load(housereader);
 
                 cmbHouse.DataSource = houseTable;
                 cmbHouse.DisplayMember = "house_name";
@@ -156,11 +157,11 @@ namespace WinFormsApp1
 
                 string familyQuery = "SELECT id, mobile_number FROM families";
 
-                MySqlDataAdapter familyAdapter =
-                    new MySqlDataAdapter(familyQuery, conn);
+                MySqlCommand familycmd = new MySqlCommand(familyQuery, conn);
+                await using MySqlDataReader familyreader = await familycmd.ExecuteReaderAsync();
 
                 DataTable familyTable = new DataTable();
-                familyAdapter.Fill(familyTable);
+                familyTable.Load(familyreader);
 
                 cmbFamily.DataSource = familyTable;
                 cmbFamily.DisplayMember = "mobile_number";
@@ -168,33 +169,67 @@ namespace WinFormsApp1
 
 
                 //Load Student Data into Form Controls
-                MySqlCommand cmd = new MySqlCommand($"select * from students where id={this.studentITd}", conn);
+                MySqlCommand studentCmd =
+            new MySqlCommand(
+                "SELECT * FROM students WHERE id = @id",
+                conn);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                studentCmd.Parameters.AddWithValue(
+                    "@id",
+                    this.studentITd);
+
+                await using MySqlDataReader studentReader =
+                    await studentCmd.ExecuteReaderAsync();
+
                 DataTable dt = new DataTable();
 
-                da.Fill(dt);
+                dt.Load(studentReader);
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Student not found.");
+                    return;
+                }
 
                 DataRow dr = dt.Rows[0];
 
-                //Load Student Data into TextBoxes
-                txtFirstName.Text = dr["first_name"].ToString();
-                txtLastName.Text = dr["last_name"].ToString();
-                txtAddress.Text = dr["per_address"].ToString();
-                txtAdmissionNo.Text = dr["admission_number"].ToString();
-                txtNIC.Text = dr["nic_number"].ToString();
-                txtTel.Text = dr["tele_number"].ToString();
 
-                //Load Gender
-                string gender = dr["gender"].ToString();
+                // TextBoxes
+                txtFirstName.Text =
+                    dr["first_name"].ToString();
+
+                txtLastName.Text =
+                    dr["last_name"].ToString();
+
+                txtAddress.Text =
+                    dr["per_address"].ToString();
+
+                txtAdmissionNo.Text =
+                    dr["admission_number"].ToString();
+
+                txtNIC.Text =
+                    dr["nic_number"].ToString();
+
+                txtBirthNo.Text =
+                    dr["birth_certificate_number"].ToString();
+
+                txtTel.Text =
+                    dr["tele_number"].ToString();
+
+
+                // Gender
+                string gender =
+                    dr["gender"].ToString();
 
                 rdoMale.Checked = gender == "M";
                 rdoFemale.Checked = gender == "F";
 
-                //Load Grade into ComboBoxes
+
+                // Grade
                 if (dr["grade_id"] != DBNull.Value)
                 {
-                    cmbGrade.SelectedValue = dr["grade_id"];
+                    cmbGrade.SelectedValue =
+                        dr["grade_id"];
                 }
                 else
                 {
@@ -202,26 +237,25 @@ namespace WinFormsApp1
                     cmbGrade.Text = "N/A";
                 }
 
-                //Load Date of Birth into DateTimePicker
-                if (dr["date_of_birth"] != DBNull.Value)
 
+                // Date of Birth
+                if (dr["date_of_birth"] != DBNull.Value)
                 {
                     dtpDOB.Value =
-                        Convert.ToDateTime(dr["date_of_birth"]);
+                        Convert.ToDateTime(
+                            dr["date_of_birth"]);
                 }
-
                 else
                 {
                     dtpDOB.Value = DateTime.Now;
                 }
 
 
-                //Load House into ComboBoxes
+                // House
                 if (dr["house_id"] != DBNull.Value)
                 {
-                    int houseId = Convert.ToInt32(dr["house_id"]);
-
-                    cmbHouse.SelectedValue = houseId;
+                    cmbHouse.SelectedValue =
+                        Convert.ToInt32(dr["house_id"]);
                 }
                 else
                 {
@@ -229,7 +263,8 @@ namespace WinFormsApp1
                     cmbHouse.Text = "N/A";
                 }
 
-                //Load Medium into ComboBoxes
+
+                // Medium
                 if (dr["medium"] != DBNull.Value)
                 {
                     cmbMedium.Text =
@@ -240,29 +275,36 @@ namespace WinFormsApp1
                     cmbMedium.Text = "N/A";
                 }
 
-                //Family ID
 
+                // Family
                 if (dr["family_id"] != DBNull.Value)
                 {
-                    cmbFamily.SelectedValue = dr["family_id"].ToString();
+                    cmbFamily.SelectedValue =
+                        Convert.ToInt32(dr["family_id"]);
                 }
                 else
                 {
                     cmbFamily.SelectedIndex = -1;
                     cmbFamily.Text = "N/A";
                 }
-
-
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(
+                    "Database error:\n" + ex.Message,
+                    "Database Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
 
-            finally
-            {
-                conn.Close();
-            }
         }
 
         private void lblFamily_Click(object sender, EventArgs e)

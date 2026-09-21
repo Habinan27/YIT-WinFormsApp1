@@ -25,14 +25,14 @@ namespace WinFormsApp1
             this.gradeId = id;
 
         }
-        private void UpdateGrade()
+        private async void UpdateGrade()
         {
             string gradeColour = ColorTranslator.ToHtml(
                 btnChooseColour.BackColor);
 
             GradeDAL gradeDAL = new GradeDAL();
 
-            bool updated = gradeDAL.Update(
+            bool updated = await gradeDAL.Update(
                 gradeId,
                 txtGradeName.Text,
                 txtGradeGroup.Text,
@@ -52,11 +52,11 @@ namespace WinFormsApp1
             }
         }
         
-        private void frmLoadGrade()
+        private async void frmLoadGrade()
         {
             GradeDAL gradeDAL = new GradeDAL();
 
-            DataTable dt = gradeDAL.GetById(gradeId);
+            DataTable dt = await gradeDAL.GetById(gradeId);
 
             if (dt.Rows.Count > 0)
             {

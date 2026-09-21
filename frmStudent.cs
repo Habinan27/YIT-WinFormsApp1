@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace WinFormsApp1
 {
     public partial class frmStudent : Form
     {
+        string connString =
+            ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString
+            ?? string.Empty;
         public frmStudent()
         {
             InitializeComponent();
@@ -21,44 +25,43 @@ namespace WinFormsApp1
         }
 
         string studentId;
+
         public frmStudent(string studentId)
         {
             InitializeComponent();
             this.studentId = studentId;
         }
 
-        private void Frmdbshow_Load(object sender, EventArgs e)
+        private async void Frmdbshow_Load(object sender, EventArgs e)
         {
-            string connectionString = "Server=localhost;Database=school;Uid=root;Pwd=root;";
-            MySqlConnection conn = new MySqlConnection(connectionString);
-
+           
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 //Load grades into ComboBox
                 string gradeQuery = "SELECT id, grade_name FROM grades";
-                MySqlDataAdapter gradeAdapter = new MySqlDataAdapter(gradeQuery, conn);
+
+                MySqlCommand gradeCmd = new MySqlCommand(gradeQuery, conn);
+
+                await using MySqlDataReader gradeReader =
+                    await gradeCmd.ExecuteReaderAsync();
+
                 DataTable gradeTable = new DataTable();
-                gradeAdapter.Fill(gradeTable);
+
+                gradeTable.Load(gradeReader);
 
                 cmbGrade.DataSource = gradeTable;
                 cmbGrade.DisplayMember = "grade_name";
                 cmbGrade.ValueMember = "id";
-
-
-                
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString());
             }
 
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
         private void lbl_familyid_Click(object sender, EventArgs e)

@@ -11,23 +11,22 @@ namespace WinFormsApp1.DAL
             ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString
             ?? string.Empty;
 
-        public DataTable GetAll()
+        public async Task<DataTable> GetAll()
         {
-            MySqlConnection conn = new MySqlConnection(connString);
             DataTable dt = new DataTable();
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
-                MySqlCommand cmd = new MySqlCommand(
+                await using MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM grades",
                     conn);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-                da.Fill(dt);
-
+                await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
+                dt.Load(reader);
+                          
                 return dt;
             }
             catch (MySqlException ex)
@@ -40,22 +39,19 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
 
         
-        public DataTable GetById(string id)
+        public async Task<DataTable> GetById(string id)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
             DataTable dt = new DataTable();
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM grades WHERE id = @id",
@@ -79,24 +75,22 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
 
-        public bool Insert(
+        public async Task <bool> Insert(
             string gradeName,
             string gradeGroup,
             string gradeOrder,
             string colour)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+            
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(@"
                     INSERT INTO grades
@@ -134,26 +128,24 @@ namespace WinFormsApp1.DAL
 
                 return false;
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
 
     
-        public bool Update(
+        public async Task<bool> Update(
             string id,
             string gradeName,
             string gradeGroup,
             string gradeOrder,
             string colour)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+            
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(@"
                     UPDATE grades
@@ -185,23 +177,21 @@ namespace WinFormsApp1.DAL
 
                 return false;
             }
-            finally
-            {
-                conn.Close();
-            }
+           
         }
 
 
         // =========================
         // DELETE GRADE
         // =========================
-        public bool Delete(string id)
+        public async Task<bool> Delete(string id)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+            
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(
                     "DELETE FROM grades WHERE id = @id",
@@ -222,10 +212,6 @@ namespace WinFormsApp1.DAL
                     MessageBoxIcon.Error);
 
                 return false;
-            }
-            finally
-            {
-                conn.Close();
             }
         }
     }

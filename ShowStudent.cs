@@ -23,12 +23,12 @@ namespace WinFormsApp1
             this.studentId = studentId;
         }
 
-        private void Frmdbshow_Load(object sender, EventArgs e)
+        private async void Frmdbshow_Load(object sender, EventArgs e)
         {
 
             StudentDal studentDal = new StudentDal();
 
-            DataTable dt = studentDal.GetById(this.studentId.ToString());
+            DataTable dt = await studentDal.GetById(this.studentId.ToString());
 
             if (dt.Rows.Count == 0)
             {

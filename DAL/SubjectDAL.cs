@@ -13,22 +13,20 @@ namespace WinFormsApp1.DAL
     {
         string connString =ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
 
-        public DataTable GetAll()
+        public async Task <DataTable> GetAll()
         {
-            MySqlConnection conn = new MySqlConnection(connString);
             DataTable dt = new DataTable();
-
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
-                MySqlCommand cmd = new MySqlCommand(
+                await using MySqlCommand cmd = new MySqlCommand(
                     "SELECT * FROM subjects",
                     conn);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-
-                da.Fill(dt);
+                await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
+                dt.Load(reader);
 
                 return dt;
             }
@@ -42,24 +40,21 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+           
         }
 
         
 
-        public DataTable GetSelectedSubjects(int studentId)
+        public async Task<DataTable> GetSelectedSubjects(int studentId)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+            await using MySqlConnection conn = new MySqlConnection(connString);
             DataTable dt = new DataTable();
 
             try
             {
-                conn.Open();
+                await conn.OpenAsync();
 
-                MySqlCommand cmd = new MySqlCommand(@"
+                await using MySqlCommand cmd = new MySqlCommand(@"
             SELECT subject_id
             FROM student_subjects
             WHERE student_id = @student_id
@@ -67,9 +62,9 @@ namespace WinFormsApp1.DAL
 
                 cmd.Parameters.AddWithValue("@student_id", studentId);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                da.Fill(dt);
+                dt.Load(reader);
 
                 return dt;
             }
@@ -83,10 +78,7 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
     }
 }

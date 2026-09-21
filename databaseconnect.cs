@@ -33,7 +33,7 @@ namespace WinFormsApp1
 
 
 
-        private async void LoadStudents()
+        private async Task LoadStudents()
         {
             StudentDal studentDal = new StudentDal();
 
@@ -42,7 +42,7 @@ namespace WinFormsApp1
             dcvAllStudent.DataSource = dt;
         }
 
-        private void DeleteStudent()
+        private async Task DeleteStudent()
         {
             string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
 
@@ -56,7 +56,7 @@ namespace WinFormsApp1
             {
                 StudentDal studentDal = new StudentDal();
 
-                bool deleted = studentDal.Delete(id);
+                bool deleted = await studentDal.Delete(id);
 
                 if (deleted)
                 {
@@ -66,7 +66,7 @@ namespace WinFormsApp1
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    LoadStudents();
+                    await LoadStudents();
                 }
             }
         }
@@ -149,7 +149,7 @@ namespace WinFormsApp1
 
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
             string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
 
@@ -157,28 +157,26 @@ namespace WinFormsApp1
 
             f.ShowDialog();
 
-            LoadStudents();
+            await LoadStudents();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                DeleteStudent();
+               await DeleteStudent();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
         }
 
-        private void btnInsert_Click(object sender, EventArgs e)
+        private async void btnInsert_Click(object sender, EventArgs e)
         {
             frmStudent student = new frmStudent();
             student.ShowDialog();
-            LoadStudents();
+            await LoadStudents();
         }
 
         private void btnAddSubject_Click(object sender, EventArgs e)

@@ -22,7 +22,7 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        private void ShowGrade()
+        private async Task ShowGrade()
         {
             string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
 
@@ -30,7 +30,7 @@ namespace WinFormsApp1
 
             frm.ShowDialog();
         }
-        private void DeleteGrade()
+        private async Task DeleteGrade()
         {
             string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
 
@@ -44,7 +44,7 @@ namespace WinFormsApp1
             {
                 GradeDAL gradeDAL = new GradeDAL();
 
-                bool deleted = gradeDAL.Delete(id);
+                bool deleted = await gradeDAL.Delete(id);
 
                 if (deleted)
                 {
@@ -58,16 +58,16 @@ namespace WinFormsApp1
             }
         }
 
-        private void LoadGrade()
+        private async Task LoadGrade()
         {
             GradeDAL gradeDAL = new GradeDAL();
 
-            DataTable dt = gradeDAL.GetAll();
+            DataTable dt = await gradeDAL.GetAll();
 
             dgvAllGrades.DataSource = dt;
         }
 
-        private void EditGrade()
+        private async Task EditGrade()
         {
             string id = dgvAllGrades.CurrentRow.Cells["id"].Value.ToString();
 
@@ -75,7 +75,7 @@ namespace WinFormsApp1
 
             frm.ShowDialog();
 
-            LoadGrade();
+            await LoadGrade();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -103,11 +103,11 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnAllGrades_Click(object sender, EventArgs e)
+        private async void btnAllGrades_Click(object sender, EventArgs e)
         {
             try 
             {
-                LoadGrade();
+                await LoadGrade();
             }
             catch (Exception ex)
             {
@@ -116,11 +116,11 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnShow_Click(object sender, EventArgs e)
+        private async void btnShow_Click(object sender, EventArgs e)
         {
             try
             {
-                ShowGrade();
+                await ShowGrade();
             }
 
             catch (Exception ex)
@@ -130,11 +130,11 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
             try
             {
-                EditGrade();
+               await EditGrade();
             }
 
             catch (Exception ex)
@@ -144,12 +144,12 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnDelete_Click_1(object sender, EventArgs e)
+        private async void btnDelete_Click_1(object sender, EventArgs e)
         {
             try
             {
-                DeleteGrade();
-                LoadGrade();
+                await DeleteGrade();
+                await LoadGrade();
             }
             catch (Exception ex)
             {
@@ -158,11 +158,11 @@ namespace WinFormsApp1
             }
         }
 
-        private void btnInsert_Click(object sender, EventArgs e)
+        private async void btnInsert_Click(object sender, EventArgs e)
         {
             frmCreateGrade student = new frmCreateGrade();
             student.ShowDialog();
-            LoadGrade();
+            await LoadGrade();
         }
     }
 }

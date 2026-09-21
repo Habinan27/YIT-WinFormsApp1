@@ -22,29 +22,28 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             this.studentId = studentId;
-            this.Load += Editstudent_load;
+            this.Load += async (s, e) => await Editstudent_load(s, e);
         }
 
         
 
-        private void Editstudent_load(object sender, EventArgs e)
+        private async Task Editstudent_load(object sender, EventArgs e)
         {
-
-            MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
-                conn.Open();
+               await using  MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 // Load Grades
                 string gradeQuery = "SELECT id, grade_name FROM grades";
 
-                MySqlDataAdapter gradeAdapter =
-                    new MySqlDataAdapter(gradeQuery, conn);
+                await using MySqlDataReader gradeReader =
+                    await new MySqlCommand(gradeQuery, conn).ExecuteReaderAsync();
 
                 DataTable gradeTable = new DataTable();
 
-                gradeAdapter.Fill(gradeTable);
+                gradeTable.Load(gradeReader);
 
                 cmbGrade.DataSource = gradeTable;
                 cmbGrade.DisplayMember = "grade_name";
@@ -53,30 +52,28 @@ namespace WinFormsApp1
 
                 // Load Student + House + Family
                 MySqlCommand cmd = new MySqlCommand(@"
-            SELECT
-                students.*,
-                houses.house_name,
-                families.mobile_number
-            FROM students
+                    SELECT
+                        students.*,
+                        houses.house_name,
+                        families.mobile_number
+                    FROM students
 
-            LEFT JOIN houses
-                ON students.house_id = houses.id
+                    LEFT JOIN houses
+                        ON students.house_id = houses.id
 
-            LEFT JOIN families
-                ON students.family_id = families.id
+                    LEFT JOIN families
+                        ON students.family_id = families.id
 
-            WHERE students.id = @id
-        ", conn);
+                    WHERE students.id = @id
+                ", conn);
 
                 cmd.Parameters.AddWithValue("@id", studentId);
 
-                MySqlDataAdapter da =
-                    new MySqlDataAdapter(cmd);
+                await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
 
                 DataTable dt = new DataTable();
 
-                da.Fill(dt);
-
+                dt.Load(reader);
                 if (dt.Rows.Count == 0)
                 {
                     MessageBox.Show(
@@ -210,10 +207,7 @@ namespace WinFormsApp1
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
         private void lbl_familyid_Click(object sender, EventArgs e)
@@ -221,13 +215,13 @@ namespace WinFormsApp1
 
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private async void btnUpdate_Click(object sender, EventArgs e)
         {
             try
             {
                 string gender = rdoMale.Checked ? "M" : "F";
                 StudentDal studentDal = new StudentDal();
-                bool updated = studentDal.Update(
+                bool updated = await studentDal.Update(
                     studentId,
                     txtAdmissionNo.Text,
                     txtFirstName.Text,

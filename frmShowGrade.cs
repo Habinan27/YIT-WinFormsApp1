@@ -25,14 +25,14 @@ namespace WinFormsApp1
 
         }
 
-        private void frmShowGrade_Load(object sender, EventArgs e)
+        private async void frmShowGrade_Load(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
-
+            
             try
             {
+                await using MySqlConnection conn = new MySqlConnection(connString);
                 GradeDAL gradeDAL = new GradeDAL();
-                DataTable dt = gradeDAL.GetById(gradeId);
+                DataTable dt =await gradeDAL.GetById(gradeId);
                 if (dt.Rows.Count == 0)
                 {
                     MessageBox.Show(
@@ -65,10 +65,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show(ex.Message.ToString());
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
     }
 }

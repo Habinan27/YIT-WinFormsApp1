@@ -72,14 +72,15 @@ namespace WinFormsApp1.DAL
             
         }
 
-        public DataTable GetById(string id)
+        public async Task<DataTable> GetById(string id)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+            
             DataTable dt = new DataTable();
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(@"
             SELECT 
@@ -98,9 +99,9 @@ namespace WinFormsApp1.DAL
 
                 cmd.Parameters.AddWithValue("@id", id);
 
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+               await using MySqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                da.Fill(dt);
+                dt.Load(reader);
 
                 return dt;
             }
@@ -114,19 +115,15 @@ namespace WinFormsApp1.DAL
 
                 return dt;
             }
-            finally
-            {
-                conn.Close();
-            }
+           
         }
 
-        public bool Delete(string id)
+        public async Task<bool>Delete(string id)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
-
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 MySqlCommand cmd = new MySqlCommand(
                     "DELETE FROM students WHERE id = @id", conn);
@@ -147,13 +144,9 @@ namespace WinFormsApp1.DAL
 
                 return false;
             }
-            finally
-            {
-                conn.Close();
-            }
         }
 
-        public bool Insert(
+        public async Task<bool> Insert(
                     string admissionNumber,
                     string firstName,
                     string lastName,
@@ -169,11 +162,10 @@ namespace WinFormsApp1.DAL
                     string familyMobile,
                     DateTime dateOfAdmission)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
-
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 // Check House
                 string houseId = "";
@@ -233,41 +225,41 @@ namespace WinFormsApp1.DAL
 
                 // Insert Student
                 MySqlCommand cmd = new MySqlCommand(@"
-            INSERT INTO students
-            (
-                admission_number,
-                first_name,
-                last_name,
-                gender,
-                date_of_birth,
-                nic_number,
-                birth_certificate_number,
-                tele_number,
-                per_address,
-                grade_id,
-                house_id,
-                medium,
-                date_of_admission,
-                family_id
-            )
-            VALUES
-            (
-                @admission_number,
-                @first_name,
-                @last_name,
-                @gender,
-                @date_of_birth,
-                @nic_number,
-                @birth_certificate_number,
-                @tele_number,
-                @per_address,
-                @grade_id,
-                @house_id,
-                @medium,
-                @date_of_admission,
-                @family_id
-            )",
-                    conn);
+                        INSERT INTO students
+                        (
+                            admission_number,
+                            first_name,
+                            last_name,
+                            gender,
+                            date_of_birth,
+                            nic_number,
+                            birth_certificate_number,
+                            tele_number,
+                            per_address,
+                            grade_id,
+                            house_id,
+                            medium,
+                            date_of_admission,
+                            family_id
+                        )
+                        VALUES
+                        (
+                            @admission_number,
+                            @first_name,
+                            @last_name,
+                            @gender,
+                            @date_of_birth,
+                            @nic_number,
+                            @birth_certificate_number,
+                            @tele_number,
+                            @per_address,
+                            @grade_id,
+                            @house_id,
+                            @medium,
+                            @date_of_admission,
+                            @family_id
+                        )",
+                                conn);
 
                 cmd.Parameters.AddWithValue("@admission_number", admissionNumber);
                 cmd.Parameters.AddWithValue("@first_name", firstName);
@@ -298,13 +290,9 @@ namespace WinFormsApp1.DAL
 
                 return false;
             }
-            finally
-            {
-                conn.Close();
-            }
         }
 
-        public bool Update(
+        public async Task<bool> Update(
                     string id,
                     string admissionNumber,
                     string firstName,
@@ -321,11 +309,12 @@ namespace WinFormsApp1.DAL
                     DateTime dateOfBirth,
                     DateTime dateOfAdmission)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
+           
 
             try
             {
-                conn.Open();
+                await using MySqlConnection conn = new MySqlConnection(connString);
+                await conn.OpenAsync();
 
                 // Get existing house_id and family_id
                 MySqlCommand getIdCmd = new MySqlCommand(@"
@@ -355,10 +344,10 @@ namespace WinFormsApp1.DAL
                 if (houseId > 0)
                 {
                     MySqlCommand houseCmd = new MySqlCommand(@"
-                UPDATE houses
-                SET house_name = @house_name
-                WHERE id = @house_id
-            ", conn);
+                            UPDATE houses
+                            SET house_name = @house_name
+                            WHERE id = @house_id
+                        ", conn);
 
                     houseCmd.Parameters.AddWithValue("@house_name", houseName);
                     houseCmd.Parameters.AddWithValue("@house_id", houseId);
@@ -427,10 +416,6 @@ namespace WinFormsApp1.DAL
                     MessageBoxIcon.Error);
 
                 return false;
-            }
-            finally
-            {
-                conn.Close();
             }
         }
 

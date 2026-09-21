@@ -23,12 +23,12 @@ namespace WinFormsApp1
             studentId = id;
         }
 
-        private void frmAddSubject_Load(object sender, EventArgs e)
+        private async void frmAddSubject_Load(object sender, EventArgs e)
         {
             StudentDal studentDal = new StudentDal();
 
             // Get selected student
-            DataTable dtStudent =studentDal.GetById(studentId.ToString());
+            DataTable dtStudent =await studentDal.GetById(studentId.ToString());
 
             DataRow studentRow = dtStudent.Rows[0];
 
@@ -43,13 +43,13 @@ namespace WinFormsApp1
             // Get all subjects
             SubjectDAL subjectDAL = new SubjectDAL();
 
-            DataTable dtSubjects =subjectDAL.GetAll();
+            DataTable dtSubjects = await subjectDAL.GetAll();
 
             clbSubjects.DataSource = dtSubjects;
             clbSubjects.DisplayMember = "subject_name";
             clbSubjects.ValueMember = "id";
 
-            DataTable dtSelectedSubjects = subjectDAL.GetSelectedSubjects(studentId);
+            DataTable dtSelectedSubjects = await subjectDAL.GetSelectedSubjects(studentId);
 
             for (int i = 0; i < clbSubjects.Items.Count; i++)
             {
