@@ -39,6 +39,7 @@
             panel1 = new Panel();
             button1 = new Button();
             btnAddSubject = new Button();
+            btnGrades = new Button();
             ((System.ComponentModel.ISupportInitialize)dcvAllStudent).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -70,13 +71,13 @@
             dcvAllStudent.Location = new Point(12, 168);
             dcvAllStudent.Name = "dcvAllStudent";
             dcvAllStudent.RowHeadersWidth = 51;
-            dcvAllStudent.Size = new Size(967, 429);
+            dcvAllStudent.Size = new Size(1092, 429);
             dcvAllStudent.TabIndex = 2;
             dcvAllStudent.CellContentClick += dcvAllStudent_CellContentClick;
             // 
             // btnDBShow
             // 
-            btnDBShow.Location = new Point(300, 102);
+            btnDBShow.Location = new Point(457, 103);
             btnDBShow.Name = "btnDBShow";
             btnDBShow.Size = new Size(120, 48);
             btnDBShow.TabIndex = 18;
@@ -86,7 +87,7 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(443, 102);
+            btnEdit.Location = new Point(600, 103);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(107, 48);
             btnEdit.TabIndex = 19;
@@ -96,7 +97,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(573, 102);
+            btnDelete.Location = new Point(730, 103);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(107, 48);
             btnDelete.TabIndex = 20;
@@ -106,7 +107,7 @@
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(705, 102);
+            btnInsert.Location = new Point(862, 103);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(107, 48);
             btnInsert.TabIndex = 21;
@@ -119,7 +120,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold);
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(420, 15);
+            label2.Location = new Point(497, 13);
             label2.Name = "label2";
             label2.Size = new Size(201, 38);
             label2.TabIndex = 22;
@@ -131,7 +132,7 @@
             panel1.Controls.Add(label2);
             panel1.Location = new Point(12, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(968, 65);
+            panel1.Size = new Size(1092, 65);
             panel1.TabIndex = 23;
             // 
             // button1
@@ -143,7 +144,7 @@
             // 
             // btnAddSubject
             // 
-            btnAddSubject.Location = new Point(840, 103);
+            btnAddSubject.Location = new Point(997, 104);
             btnAddSubject.Name = "btnAddSubject";
             btnAddSubject.Size = new Size(107, 46);
             btnAddSubject.TabIndex = 25;
@@ -151,12 +152,23 @@
             btnAddSubject.UseVisualStyleBackColor = true;
             btnAddSubject.Click += btnAddSubject_Click;
             // 
+            // btnGrades
+            // 
+            btnGrades.Location = new Point(306, 102);
+            btnGrades.Name = "btnGrades";
+            btnGrades.Size = new Size(124, 48);
+            btnGrades.TabIndex = 26;
+            btnGrades.Text = "All Grades";
+            btnGrades.UseVisualStyleBackColor = true;
+            btnGrades.Click += btnGrades_Click;
+            // 
             // databaseconnect
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(992, 609);
+            ClientSize = new Size(1116, 609);
+            Controls.Add(btnGrades);
             Controls.Add(btnAddSubject);
             Controls.Add(panel1);
             Controls.Add(btnInsert);
@@ -189,5 +201,6 @@
         private Panel panel1;
         private Button button1;
         private Button btnAddSubject;
+        private Button btnGrades;
     }
 }

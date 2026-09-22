@@ -19,7 +19,9 @@ namespace WinFormsApp1
         private object studentId;
 
         string connString = ConfigurationManager.ConnectionStrings["MyDbConnection"]?.ConnectionString ?? string.Empty;
-        //private object dgvAllStudent;
+
+        // student or grade
+        private string currentView = "student";
 
         public databaseconnect()
         {
@@ -27,12 +29,17 @@ namespace WinFormsApp1
 
             if (string.IsNullOrWhiteSpace(connString))
             {
-                MessageBox.Show("Datebase connection string is missing. Please cheak your configuration", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Database connection string is missing. Please check your configuration",
+                    "Configuration Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
-
-
+        // =========================
+        // LOAD STUDENTS
+        // =========================
         private async Task LoadStudents()
         {
             StudentDal studentDal = new StudentDal();
@@ -40,10 +47,21 @@ namespace WinFormsApp1
             DataTable dt = await studentDal.GetAll();
 
             dcvAllStudent.DataSource = dt;
+
+            currentView = "student";
         }
 
+        // =========================
+        // DELETE STUDENT
+        // =========================
         private async Task DeleteStudent()
         {
+            if (dcvAllStudent.CurrentRow == null)
+            {
+                MessageBox.Show("Please select a student.");
+                return;
+            }
+
             string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
 
             DialogResult result = MessageBox.Show(
@@ -71,20 +89,30 @@ namespace WinFormsApp1
             }
         }
 
+        // =========================
+        // CONNECTION
+        // =========================
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            //string connString = "Server=localhost;Port=3306;Database=school;Uid=root;Pwd=root;";
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
                 conn.Open();
-                MessageBox.Show("Connection successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                MessageBox.Show(
+                    "Connection successfully",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show($"Error connecting to database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error connecting to database: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             finally
             {
@@ -92,51 +120,119 @@ namespace WinFormsApp1
             }
         }
 
+        // =========================
+        // ALL STUDENTS
+        // =========================
         private async void btnAllStudent_Click(object sender, EventArgs e)
         {
-            StudentDal studentDal = new StudentDal();
-            DataTable dt = await studentDal.GetAll();
-            dcvAllStudent.DataSource = dt;
+            try
+            {
+                StudentDal studentDal = new StudentDal();
+
+                DataTable dt = await studentDal.GetAll();
+
+                dcvAllStudent.DataSource = dt;
+
+                currentView = "student";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-
-
-        private void dcvAllStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // =========================
+        // ALL GRADES
+        // =========================
+        private async void btnGrades_Click(object sender, EventArgs e)
         {
+            try
+            {
+                GradeDAL gradeDal = new GradeDAL();
 
+                DataTable dt = await gradeDal.GetAll();
+
+                dcvAllStudent.DataSource = dt;
+
+                currentView = "grade";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
+        // =========================
+        // SHOW
+        // =========================
         private void btnShow_Click(object sender, EventArgs e)
         {
             try
             {
+                if (dcvAllStudent.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a record.");
+                    return;
+                }
+
                 string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
 
-                frmshowstudent frm = new frmshowstudent(id);
+                // STUDENT SHOW
+                if (currentView == "student")
+                {
+                    frmshowstudent frm = new frmshowstudent(id);
 
-                frm.ShowDialog();
+                    frm.ShowDialog();
+                }
+
+                // GRADE SHOW
+                else if (currentView == "grade")
+                {
+                    frmShowGrade frm = new frmShowGrade(id);
+
+                    frm.ShowDialog();
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
-        private void rdoMale_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnDBShow_Click(object sender, EventArgs e)
+        // =========================
+        // EDIT
+        // =========================
+        private async void btnEdit_Click(object sender, EventArgs e)
         {
             try
             {
+                if (dcvAllStudent.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a record.");
+                    return;
+                }
+
                 string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
 
-                frmshowstudent frm = new frmshowstudent(id);
+                // STUDENT EDIT
+                if (currentView == "student")
+                {
+                    EditStudent student = new EditStudent(id);
 
-                frm.ShowDialog();
+                    student.ShowDialog();
+
+                    await LoadStudents();
+                }
+
+                // GRADE EDIT
+                else if (currentView == "grade")
+                {
+                    frmEditGrade grade = new frmEditGrade(id);
+
+                    grade.ShowDialog();
+
+                    await LoadGrades();
+                }
             }
             catch (Exception ex)
             {
@@ -144,27 +240,72 @@ namespace WinFormsApp1
             }
         }
 
-        private void databaseconnect_Load(object sender, EventArgs e)
+        // =========================
+        // LOAD GRADES
+        // =========================
+        private async Task LoadGrades()
         {
+            GradeDAL gradeDal = new GradeDAL();
 
+            DataTable dt = await gradeDal.GetAll();
+
+            dcvAllStudent.DataSource = dt;
+
+            currentView = "grade";
         }
 
-        private async void btnEdit_Click(object sender, EventArgs e)
-        {
-            string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
-
-            EditStudent f = new EditStudent(id);
-
-            f.ShowDialog();
-
-            await LoadStudents();
-        }
-
+        // =========================
+        // DELETE
+        // =========================
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
-               await DeleteStudent();
+                if (dcvAllStudent.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a record.");
+                    return;
+                }
+
+                string id = dcvAllStudent.CurrentRow.Cells["id"].Value.ToString();
+
+                // =========================
+                // DELETE STUDENT
+                // =========================
+                if (currentView == "student")
+                {
+                    await DeleteStudent();
+                }
+
+                // =========================
+                // DELETE GRADE
+                // =========================
+                else if (currentView == "grade")
+                {
+                    DialogResult result = MessageBox.Show(
+                        "Are you sure you want to delete this grade?",
+                        "Confirm Delete",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        GradeDAL gradeDal = new GradeDAL();
+
+                        bool deleted = await gradeDal.Delete(id);
+
+                        if (deleted)
+                        {
+                            MessageBox.Show(
+                                "Grade deleted successfully.",
+                                "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
+                            await LoadGrades();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -172,22 +313,73 @@ namespace WinFormsApp1
             }
         }
 
+        // =========================
+        // INSERT STUDENT
+        // =========================
         private async void btnInsert_Click(object sender, EventArgs e)
         {
-            frmStudent student = new frmStudent();
-            student.ShowDialog();
-            await LoadStudents();
+            try
+            {
+                frmStudent student = new frmStudent();
+
+                student.ShowDialog();
+
+                await LoadStudents();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
+        // =========================
+        // ADD SUBJECT
+        // =========================
         private void btnAddSubject_Click(object sender, EventArgs e)
         {
-            int studentId = Convert.ToInt32(
-                dcvAllStudent.CurrentRow.Cells["id"].Value
-            );
+            try
+            {
+                if (currentView != "student")
+                {
+                    MessageBox.Show("Please select a student.");
+                    return;
+                }
 
-            frmAddSubject frm = new frmAddSubject(studentId);
+                if (dcvAllStudent.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a student.");
+                    return;
+                }
 
-            frm.ShowDialog();
+                int studentId = Convert.ToInt32(
+                    dcvAllStudent.CurrentRow.Cells["id"].Value
+                );
+
+                frmAddSubject frm = new frmAddSubject(studentId);
+
+                frm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void dcvAllStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void rdoMale_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void databaseconnect_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void btnDBShow_Click(object sender, EventArgs e)
+        {
+            btnShow_Click(sender, e);
         }
     }
 }
